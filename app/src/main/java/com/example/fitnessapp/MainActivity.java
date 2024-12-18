@@ -17,6 +17,6 @@ public class MainActivity extends AppCompatActivity {
         binding = MainActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.loginbtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MainActivity2.class)));
+        binding.loginbtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, Login.class)));
     }
 }
