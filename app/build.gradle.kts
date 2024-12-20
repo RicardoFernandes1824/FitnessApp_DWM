@@ -49,4 +49,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation ("com.github.bumptech.glide:glide:4.12.0")
+    //Gson
+    implementation("com.google.code.gson:gson:2.8.9")
+    //API
+    implementation ("com.squareup.okhttp3:okhttp:3.10.0")
+
 }
