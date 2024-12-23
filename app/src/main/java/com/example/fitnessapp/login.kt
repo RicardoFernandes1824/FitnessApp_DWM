@@ -10,11 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.fitnessapp.databinding.MainActivityBinding
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.Response
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 class Login : AppCompatActivity() {
@@ -24,7 +22,6 @@ class Login : AppCompatActivity() {
     lateinit var login_btn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        var client = OkHttpClient()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.login_screen)
@@ -35,56 +32,49 @@ class Login : AppCompatActivity() {
         }
 
 
-       username_input = findViewById(R.id.username_input)
-       password_input = findViewById(R.id.password_input)
-       login_btn = findViewById(R.id.login_btn)
+        username_input = findViewById(R.id.username_input)
+        password_input = findViewById(R.id.password_input)
+        login_btn = findViewById(R.id.login_btn)
 
-       login_btn.setOnClickListener({
-           val username = username_input.text.toString()
-           val password = password_input.text.toString()
-           val request = Request.Builder().url("http://localhost:8080/login").post()
-           Log.i("Test","username : $username and Password: $password")
+        login_btn.setOnClickListener({
+            val username = username_input.text.toString()
+            val password = password_input.text.toString()
+            postLoginRequestOkHttp(username, password)
+            Log.i("Test","username : $username and Password: $password")
 
 
-       })
+        })
     }
 
-    private fun sendLoginRequest(username: String, password: String) {
+    fun postLoginRequestOkHttp(username: String, password: String) {
         val client = OkHttpClient()
+        val url = "http://10.0.2.2:8080/login"
 
-        // Define JSON content type
-        val JSON = "application/json; charset=utf-8".
-
-        // Create the JSON body
         val jsonBody = """
-            {
-                "username": "$username",
-                "password": "$password"
-            }
-        """.trimIndent()
+        {
+            "username": "$username",
+            "password": "$password"
+        }
+    """
+        val requestBody = jsonBody.toRequestBody("application/json".toMediaType())
 
-        // Create the request body
-        val requestBody = RequestBody.create(JSON, jsonBody)
-
-        // Build the request
         val request = Request.Builder()
-            .url("http://10.0.2.2:8080/login") // For emulator: localhost -> 10.0.2.2
+            .url(url)
             .post(requestBody)
             .build()
 
-        // Run the network call on a background thread
-        Thread {
-            try {
-                val response: Response = client.newCall(request).execute()
-                if (response.isSuccessful) {
-                    val responseBody = response.body?.string()
-                    Log.i("Response", "Success: $responseBody")
-                } else {
-                    Log.e("Response", "Failure: ${response.code}")
-                }
-            } catch (e: IOException) {
-                Log.e("Error", "Exception occurred: ${e.message}")
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
             }
-        }.start()
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    println("Login successful: ${response.body?.string()}")
+                } else {
+                    println("Login failed: ${response.code}")
+                }
+            }
+        })
     }
 }

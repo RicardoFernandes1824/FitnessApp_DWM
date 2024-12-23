@@ -52,6 +52,6 @@ dependencies {
     //Gson
     implementation("com.google.code.gson:gson:2.8.9")
     //API
-    implementation ("com.squareup.okhttp3:okhttp:3.10.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.11.0")
 
 }
