@@ -93,6 +93,7 @@
             android:text="Login"
             android:textColor="@color/black"
             android:visibility="visible"
+            android:onClick="loginBTN"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password_input" />
