@@ -1,39 +1,33 @@
 package com.example.fitnessapp
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.example.fitnessapp.databinding.HomePageBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomePage : AppCompatActivity() {
 
-    lateinit var chestWorkoutButton: Button
-    lateinit var backWorkoutButton: Button
-    lateinit var legWorkoutButton: Button
+    private val layoutId = R.layout.home_page
+    private lateinit var viewBinding: HomePageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.home_page)
-
-        chestWorkoutButton = findViewById(R.id.chestWorkout)
-        backWorkoutButton = findViewById(R.id.backWorkout)
-        legWorkoutButton = findViewById(R.id.legWorkout)
-
-        // Retrieve the username from SharedPreferences
-        val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-        val username = sharedPreferences.getString("username", "User") // Default to "User" if not found
-
-        // Find the TextView and update it with the username
-        val helloText: TextView = findViewById(R.id.helloTXT)
-        helloText.text = "Welcome $username"
-        Log.i("User", "USER: ${username}")
-
-        chestWorkoutButton.setOnClickListener{
-            val intent = Intent(this@HomePage, ChestWorkout::class.java)
-            startActivity(intent)
-        }
+        // viewBinding = DataBindingUtil.setContentView(this, layoutId)
+        setContentView(viewBinding.root)
+        setUpBottomNavigation()
     }
+
+    private fun setUpBottomNavigation(){
+        val navView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        val navController = findNavController(R.id.fragment)
+        navView.setupWithNavController(navController)
+    }
+
 
 }
