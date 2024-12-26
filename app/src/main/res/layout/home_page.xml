@@ -106,7 +106,7 @@
                 android:id="@+id/chestIMG"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                android:elevation="2dp"
+                android:elevation="100dp"
                 app:layout_constraintBottom_toBottomOf="@+id/chestWorkout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.024"
@@ -134,7 +134,7 @@
                 android:id="@+id/backIMG"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                android:elevation="2dp"
+                android:elevation="100dp"
                 app:layout_constraintBottom_toBottomOf="@+id/backWorkout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.024"
@@ -161,7 +161,7 @@
 
             <ImageView
                 android:id="@+id/legIMG"
-                android:elevation="2dp"
+                android:elevation="100dp"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 app:layout_constraintBottom_toBottomOf="@+id/legWorkout"

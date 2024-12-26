@@ -36,6 +36,10 @@
         <activity
             android:name=".HomePage"
             android:exported="false" />
+
+        <activity
+            android:name=".ChestWorkout"
+            android:exported="false" />
     </application>
 
 </manifest>
