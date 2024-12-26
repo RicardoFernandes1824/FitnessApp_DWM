@@ -56,9 +56,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/LayoutEX1"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/dark_grey_bg"
         android:backgroundTint="@color/lightGrey"
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="208dp"
             android:gravity="start"
-            android:paddingTop="40dp"
+            android:paddingTop="60dp"
             android:text="3 Sets"
             android:textColor="@color/black"
             android:textSize="18sp"
@@ -118,10 +118,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/LayoutEX2"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:layout_marginStart="25dp"
-
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/dark_grey_bg"
         android:backgroundTint="@color/lightGrey"
@@ -182,9 +181,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/LayoutEx3"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/dark_grey_bg"
         android:backgroundTint="@color/lightGrey"
@@ -193,7 +192,7 @@
         app:layout_constraintTop_toBottomOf="@+id/LayoutEX2">
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/ex3"
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_marginStart="100dp"
@@ -214,14 +213,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="208dp"
             android:gravity="start"
-            android:paddingTop="40dp"
+            android:paddingTop="60dp"
             android:text="3 Sets"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/textView9"
+            app:layout_constraintBottom_toBottomOf="@+id/ex3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView9"
+            app:layout_constraintStart_toStartOf="@+id/ex3"
             app:layout_constraintTop_toTopOf="@+id/textView9" />
 
         <TextView
@@ -236,7 +235,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textView9"
+            app:layout_constraintEnd_toEndOf="@+id/ex3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -253,16 +252,15 @@
         app:layout_constraintTop_toBottomOf="@+id/LayoutEx3">
 
         <Button
-            android:id="@+id/startWorkout"
+            android:id="@+id/startWorkout_btn"
             android:layout_width="250dp"
-            android:layout_height="50dp"
+            android:layout_height="80dp"
             android:text="Start Workout"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp"
             android:background="@drawable/light_grey_bg"
             android:layout_marginStart="100dp"
-            android:layout_marginBottom="20dp"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -271,14 +269,13 @@
 
         <ImageButton
             android:id="@+id/goBack_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:scaleType="fitCenter"
             android:layout_marginEnd="55dp"
-            android:layout_marginBottom="20dp"
             android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/startWorkout"
+            app:layout_constraintEnd_toStartOf="@+id/startWorkout_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/go_back_button" />

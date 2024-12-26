@@ -53,5 +53,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.9")
     //API
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
+    //Menu
+    implementation ("com.google.android.material:material:1.2.0")
+
 
 }

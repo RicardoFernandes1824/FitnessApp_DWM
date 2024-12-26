@@ -89,15 +89,15 @@
 
             <Button
                 android:id="@+id/chestWorkout"
-                app:backgroundTint="@color/lightGrey"
-                android:background="@drawable/dark_grey_bg"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="30dp"
+                android:background="@drawable/dark_grey_bg"
                 android:text="Chest Workout"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:backgroundTint="@color/lightGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -117,15 +117,15 @@
 
             <Button
                 android:id="@+id/backWorkout"
-                app:backgroundTint="@color/lightGrey"
-                android:background="@drawable/dark_grey_bg"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="30dp"
+                android:background="@drawable/dark_grey_bg"
                 android:text="Back Workout"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:backgroundTint="@color/lightGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/chestWorkout" />
@@ -145,15 +145,15 @@
 
             <Button
                 android:id="@+id/legWorkout"
-                app:backgroundTint="@color/lightGrey"
-                android:background="@drawable/dark_grey_bg"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="30dp"
+                android:background="@drawable/dark_grey_bg"
                 android:text="Leg Workout"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:backgroundTint="@color/lightGrey"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -161,9 +161,9 @@
 
             <ImageView
                 android:id="@+id/legIMG"
-                android:elevation="100dp"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
+                android:elevation="100dp"
                 app:layout_constraintBottom_toBottomOf="@+id/legWorkout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.024"
@@ -172,6 +172,24 @@
                 app:layout_constraintVertical_bias="0.6"
                 app:srcCompat="@drawable/leg_icon" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_bav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:itemIconSize="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_nav_menu"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
