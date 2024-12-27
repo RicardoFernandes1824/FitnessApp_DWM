@@ -58,10 +58,12 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
     //Menu
     implementation ("com.google.android.material:material:1.2.0")
-
+    //NavBar
     implementation ("androidx.compose.ui:ui:1.7.6")
     implementation ("androidx.compose.material:material:1.7.6")
     implementation ("androidx.navigation:navigation-compose:2.8.5-alpha01")
+    //Circular Image
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 
 
 }
