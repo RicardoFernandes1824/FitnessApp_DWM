@@ -13,7 +13,7 @@
             android:layout_height="70dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
-            android:src="@drawable/keanu_reeves" />
+            android:src="@drawable/keanu_reeves"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/text"

@@ -20,21 +20,138 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/editProfile_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="75dp"
-            android:layout_marginTop="250dp"
-            android:layout_marginEnd="75dp"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="200dp"
+            android:layout_marginEnd="90dp"
+            android:text="Edit Profile"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:background="@drawable/dark_grey_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/security_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
             android:text="Security"
+            android:textAllCaps="false"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:background="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/editProfile_btn" />
+
+        <ImageView
+            android:id="@+id/securityIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/padlock"
+            android:layout_marginStart="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/security_btn"
+            app:layout_constraintStart_toStartOf="@+id/security_btn"
+            app:layout_constraintTop_toTopOf="@+id/security_btn" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/next_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/security_btn"
+            app:layout_constraintEnd_toEndOf="@+id/security_btn"
+            app:layout_constraintTop_toTopOf="@+id/security_btn" />
+
+        <Button
+            android:id="@+id/language_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:text="Language"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/security_btn" />
+
+        <ImageView
+            android:id="@+id/languageIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/language"
+            app:layout_constraintBottom_toBottomOf="@+id/language_btn"
+            app:layout_constraintStart_toStartOf="@+id/language_btn"
+            app:layout_constraintTop_toTopOf="@+id/language_btn" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/next_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/language_btn"
+            app:layout_constraintEnd_toEndOf="@+id/language_btn"
+            app:layout_constraintTop_toTopOf="@+id/language_btn" />
+
+        <Button
+            android:id="@+id/darkMode_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:text="Dark Mode"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/language_btn" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/night_mode"
+            app:layout_constraintBottom_toBottomOf="@+id/darkMode_btn"
+            app:layout_constraintStart_toStartOf="@+id/darkMode_btn"
+            app:layout_constraintTop_toTopOf="@+id/darkMode_btn" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchDarkMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/darkMode_btn"
+            app:layout_constraintEnd_toEndOf="@+id/darkMode_btn"
+            app:layout_constraintTop_toTopOf="@+id/darkMode_btn" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/editProfile_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
