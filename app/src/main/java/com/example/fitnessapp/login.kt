@@ -81,21 +81,57 @@ class Login : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
-                    Log.i("Login", "Login successful: ${response.body?.string()}")
+                    val responseBody = response.body?.string()
+                    Log.i("Login", "Login successful: $responseBody")
+
+                    val token = extractTokenFromResponse(responseBody)
+                    Log.i("Login", "Login successful: $token")
 
                     // Save username to SharedPreferences
                     val editor = sharedPreferences.edit()
                     editor.putString("username", username)
+                    editor.putString("token", token)
                     editor.apply()
 
-                    // Navigate to HomePage
-                    val intent = Intent(this@Login, HomePage::class.java)
-                    startActivity(intent)
-                    finish()
+                    val firstName = extractFirstNameFromResponse(responseBody)
+                    Log.i("Login", "Login: $firstName")
+                    // Navigate based on whether firstName is null or empty
+                    if (firstName == null || firstName == "") {
+                        // Navigate to CreateProfile
+                        val intent = Intent(this@Login, CreateProfile::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // Navigate to HomePage
+                        val intent = Intent(this@Login, HomePage::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 } else {
                     Log.i("Login", "Login failed: ${response.code}")
                 }
             }
         })
+    }
+}
+// Function to extract token from response
+private fun extractTokenFromResponse(responseBody: String?): String {
+    return try {
+        // Use org.json.JSONObject to parse the response body
+        val jsonObject = org.json.JSONObject(responseBody ?: "")
+        jsonObject.getString("token") // Extract and return the token
+    } catch (e: Exception) {
+        e.printStackTrace()
+        ""
+    }
+}
+
+private fun extractFirstNameFromResponse(responseBody: String?): String? {
+    return try {
+        val jsonObject = org.json.JSONObject(responseBody ?: "")
+        jsonObject.optString("firstName", "")
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
     }
 }

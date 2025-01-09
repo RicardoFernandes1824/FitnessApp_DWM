@@ -105,7 +105,7 @@ class SignUp : AppCompatActivity() {
 
                         // Navigate to CreateProfile
                         runOnUiThread {
-                            val intent = Intent(this@SignUp, CreateProfile::class.java)
+                            val intent = Intent(this@SignUp, Login::class.java)
                             startActivity(intent)
                             finish()
                         }
