@@ -96,7 +96,7 @@ class Login : AppCompatActivity() {
                     val firstName = extractFirstNameFromResponse(responseBody)
                     Log.i("Login", "Login: $firstName")
                     // Navigate based on whether firstName is null or empty
-                    if (firstName == null || firstName == "") {
+                    if (firstName == "null" || firstName == "") {
                         // Navigate to CreateProfile
                         val intent = Intent(this@Login, CreateProfile::class.java)
                         startActivity(intent)
@@ -129,7 +129,7 @@ private fun extractTokenFromResponse(responseBody: String?): String {
 private fun extractFirstNameFromResponse(responseBody: String?): String? {
     return try {
         val jsonObject = org.json.JSONObject(responseBody ?: "")
-        jsonObject.optString("firstName", "")
+        jsonObject.optString("firstName", "null")
     } catch (e: Exception) {
         e.printStackTrace()
         null
