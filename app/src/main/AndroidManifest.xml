@@ -40,8 +40,13 @@
         <activity
             android:name=".ChestWorkout"
             android:exported="false" />
+
         <activity
             android:name=".CreateProfile"
+            android:exported="false" />
+
+        <activity
+            android:name=".editProfile"
             android:exported="false" />
     </application>
 

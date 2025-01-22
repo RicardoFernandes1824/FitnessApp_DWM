@@ -82,20 +82,20 @@ class Login : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     val responseBody = response.body?.string()
-                    Log.i("Login", "Login successful: $responseBody")
 
                     val token = extractTokenFromResponse(responseBody)
-                    Log.i("Login", "Login successful: $token")
+                    val userId = extractUserIdFromResponse(responseBody)
+                    val firstName = extractFirstNameFromResponse(responseBody)
+                    val lastName = extractLastNameFromResponse(responseBody)
 
-                    // Save username to SharedPreferences
                     val editor = sharedPreferences.edit()
                     editor.putString("username", username)
+                    editor.putString("userId", userId)
                     editor.putString("token", token)
+                    editor.putString("firstName", firstName)
+                    editor.putString("lastName", lastName)
                     editor.apply()
 
-                    val firstName = extractFirstNameFromResponse(responseBody)
-                    Log.i("Login", "Login: $firstName")
-                    // Navigate based on whether firstName is null or empty
                     if (firstName == "null" || firstName == "") {
                         // Navigate to CreateProfile
                         val intent = Intent(this@Login, CreateProfile::class.java)
@@ -119,7 +119,7 @@ private fun extractTokenFromResponse(responseBody: String?): String {
     return try {
         // Use org.json.JSONObject to parse the response body
         val jsonObject = org.json.JSONObject(responseBody ?: "")
-        jsonObject.getString("token") // Extract and return the token
+        jsonObject.getString("token")
     } catch (e: Exception) {
         e.printStackTrace()
         ""
@@ -130,6 +130,26 @@ private fun extractFirstNameFromResponse(responseBody: String?): String? {
     return try {
         val jsonObject = org.json.JSONObject(responseBody ?: "")
         jsonObject.optString("firstName", "null")
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+private fun extractLastNameFromResponse(responseBody: String?): String? {
+    return try {
+        val jsonObject = org.json.JSONObject(responseBody ?: "")
+        jsonObject.optString("lastName", "null")
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+fun extractUserIdFromResponse(responseBody: String?): String? {
+    return try {
+        val jsonObject = org.json.JSONObject(responseBody ?: "")
+        jsonObject.getString("userId")
     } catch (e: Exception) {
         e.printStackTrace()
         null

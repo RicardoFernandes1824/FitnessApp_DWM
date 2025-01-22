@@ -60,12 +60,12 @@ class SignUp : AppCompatActivity() {
             }
 
             // Make sign-up request
-            postSignInRequestOkHttp(username, email, password)
+            postSignUpRequestOkHttp(username, email, password)
         }
     }
 
     // Function to handle sign-up request
-    private fun postSignInRequestOkHttp(username: String, email: String, password: String) {
+    private fun postSignUpRequestOkHttp(username: String, email: String, password: String) {
         val client = OkHttpClient()
         val url = "http://10.0.2.2:8080/register"
 
