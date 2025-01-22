@@ -52,8 +52,8 @@ class editProfile : AppCompatActivity() {
         val userId = sharedPreferences.getString("userId", "").orEmpty()
         val token = sharedPreferences.getString("token", "").orEmpty()
         val username = sharedPreferences.getString("username", "").orEmpty()
-        val firstName = sharedPreferences.getString("firstName","").orEmpty()
-        val lastName = sharedPreferences.getString("lastName","").orEmpty()
+        val firstName = sharedPreferences.getString("firstName", "").orEmpty()
+        val lastName = sharedPreferences.getString("lastName", "").orEmpty()
 
         val usernameEditTxt: TextView = findViewById(R.id.usernameEditTxt)
         usernameEditTxt.text = "$username"
@@ -73,7 +73,15 @@ class editProfile : AppCompatActivity() {
             try {
                 val height = heightStr.toInt() // Convert String to Int
                 val weight = weightStr.toInt() // Convert String to Int
-                patchUpdateUserRequestOkHttp(userId, firstName, lastName, gender, height, weight,token)
+                patchUpdateUserRequestOkHttp(
+                    userId,
+                    firstName,
+                    lastName,
+                    gender,
+                    height,
+                    weight,
+                    token
+                )
 
             } catch (e: NumberFormatException) {
                 Log.i("UpdateClient", "Height and Weight must be valid integers.")
@@ -96,20 +104,20 @@ class editProfile : AppCompatActivity() {
 
         // Create JSON request body
         val jsonBody = """
-        {
-            "firstName": "$firstName",
-            "lastName": "$lastName",
-            "gender": "$gender",
-            "height": "$height",
-            "weight": "$weight"
-        }
-        """
+    {
+        "firstName": "$firstName",
+        "lastName": "$lastName",
+        "gender": "$gender",
+        "height": "$height",
+        "weight": "$weight"
+    }
+    """
         val requestBody = jsonBody.toRequestBody("application/json".toMediaType())
 
         // Build the request
         val request = Request.Builder()
             .url(url)
-            .method("PATCH",requestBody)
+            .method("PATCH", requestBody)
             .addHeader("Authorization", "Bearer $token")
             .build()
 
@@ -126,14 +134,12 @@ class editProfile : AppCompatActivity() {
                         val responseBody = response.body?.string()
                         Log.i("UpdateClient", "Update successful: $responseBody")
 
-                        // Navigate to CreateProfile
+                        // Return to the previous activity after successful update
                         runOnUiThread {
-                            val intent = Intent(this@editProfile, Settings::class.java)
-                            startActivity(intent)
-                            finish()
+                            finish()  // Or you can also use onBackPressed()
                         }
                     } else {
-                        Log.i("UpdateClient", "UpdateClient failed with code:${response.code} ")
+                        Log.i("UpdateClient", "Update failed with code:${response.code}")
                     }
                 }
             }

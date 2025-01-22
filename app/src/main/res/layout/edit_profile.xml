@@ -46,11 +46,11 @@
         android:id="@+id/fullName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="20sp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="50dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameEditTxt" />
@@ -58,7 +58,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="260dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/circleImageView">
@@ -70,8 +70,8 @@
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             android:ems="10"
-            android:inputType="text"
             android:hint="Username"
+            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -84,8 +84,8 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="210dp"
             android:ems="10"
-            android:inputType="text"
             android:hint="First Name"
+            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/usernameEdit" />
@@ -98,8 +98,8 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="25dp"
             android:ems="10"
-            android:inputType="text"
             android:hint="Last Name"
+            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/firstNameEdit"
             app:layout_constraintTop_toBottomOf="@+id/usernameEdit" />
@@ -112,11 +112,11 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="25dp"
             android:ems="10"
-            android:inputType="text"
             android:hint="Email Address"
+            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/firstNameEdit"/>
+            app:layout_constraintTop_toBottomOf="@+id/firstNameEdit" />
 
         <EditText
             android:id="@+id/heightEdit"
@@ -180,8 +180,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            android:tint="@color/white"
             android:background="@drawable/white_bg"
+            android:tint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/saveChangesBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
