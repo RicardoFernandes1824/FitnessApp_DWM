@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -27,6 +28,7 @@ class editProfile : AppCompatActivity() {
     private lateinit var weightInput: EditText
     private lateinit var genderSpinner: Spinner
     private lateinit var saveChangesButton: Button
+    private lateinit var goBackEditButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,7 @@ class editProfile : AppCompatActivity() {
         weightInput = findViewById(R.id.weightEdit)
         genderSpinner = findViewById(R.id.spinnerEdit)
         saveChangesButton = findViewById(R.id.saveChangesBtn)
+        goBackEditButton = findViewById(R.id.goBackEdit)
 
         // Populate the Spinner with gender options
         val genderOptions = resources.getStringArray(R.array.gender_options)
@@ -61,6 +64,10 @@ class editProfile : AppCompatActivity() {
         val fullName: TextView = findViewById(R.id.fullName)
         fullName.text = "$firstName $lastName"
 
+        goBackEditButton.setOnClickListener {
+            finish()
+        }
+
         // Handle sign-up button click
         saveChangesButton.setOnClickListener {
             val firstName = firstNameInput.text.toString()
@@ -71,8 +78,8 @@ class editProfile : AppCompatActivity() {
 
 
             try {
-                val height = heightStr.toInt() // Convert String to Int
-                val weight = weightStr.toInt() // Convert String to Int
+                val height = heightStr.toInt()
+                val weight = weightStr.toInt()
                 patchUpdateUserRequestOkHttp(
                     userId,
                     firstName,
@@ -134,9 +141,9 @@ class editProfile : AppCompatActivity() {
                         val responseBody = response.body?.string()
                         Log.i("UpdateClient", "Update successful: $responseBody")
 
-                        // Return to the previous activity after successful update
+
                         runOnUiThread {
-                            finish()  // Or you can also use onBackPressed()
+                            finish()
                         }
                     } else {
                         Log.i("UpdateClient", "Update failed with code:${response.code}")
