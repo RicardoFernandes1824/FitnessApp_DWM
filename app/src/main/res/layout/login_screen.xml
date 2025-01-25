@@ -92,6 +92,8 @@
             android:backgroundTint="#FFFFFF"
             android:text="Login"
             android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:visibility="visible"
             android:onClick="loginBTN"
             app:layout_constraintEnd_toEndOf="parent"
