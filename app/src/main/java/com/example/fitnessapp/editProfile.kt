@@ -19,6 +19,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import org.json.JSONObject
 import java.io.IOException
 
 class editProfile : AppCompatActivity() {
@@ -63,6 +64,8 @@ class editProfile : AppCompatActivity() {
 
         val fullName: TextView = findViewById(R.id.fullName)
         fullName.text = "$firstName $lastName"
+
+        fetchUserData(userId, token)
 
         goBackEditButton.setOnClickListener {
             finish()
@@ -147,6 +150,59 @@ class editProfile : AppCompatActivity() {
                         }
                     } else {
                         Log.i("UpdateClient", "Update failed with code:${response.code}")
+                    }
+                }
+            }
+        })
+    }
+
+    private fun fetchUserData(userId: String, token: String) {
+        val client = OkHttpClient()
+        val url = "http://10.0.2.2:8080/users/$userId"
+
+        val request = Request.Builder()
+            .url(url)
+            .get()
+            .addHeader("Authorization", "Bearer $token")
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("FetchUserData", "Network error: ${e.message}")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (!response.isSuccessful) {
+                        Log.e("FetchUserData", "Request failed: ${response.code}")
+                        return
+                    }
+
+                    val responseBody = response.body?.string()
+                    if (responseBody != null) {
+                        val jsonObject = JSONObject(responseBody)
+
+                        val username = jsonObject.optString("username", "")
+                        val email = jsonObject.optString("email", "")
+                        val firstName = jsonObject.optString("firstName", "")
+                        val lastName = jsonObject.optString("lastName", "")
+                        val height = jsonObject.optInt("height", 0)
+                        val weight = jsonObject.optInt("weight", 0)
+                        val gender = jsonObject.optString("gender", "")
+
+                        // Update UI on the main thread
+                        runOnUiThread {
+                            firstNameInput.setText(firstName)
+                            lastNameInput.setText(lastName)
+                            heightInput.setText(if (height != 0) height.toString() else "")
+                            weightInput.setText(if (weight != 0) weight.toString() else "")
+
+                            // Set gender selection
+                            val genderIndex = resources.getStringArray(R.array.gender_options).indexOf(gender)
+                            if (genderIndex != -1) {
+                                genderSpinner.setSelection(genderIndex)
+                            }
+                        }
                     }
                 }
             }
