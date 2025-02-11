@@ -93,124 +93,91 @@
         app:layout_constraintTop_toBottomOf="@+id/circleImageView">
 
         <EditText
-            android:id="@+id/usernameEdit"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:background="@drawable/light_grey_bg"
-            android:ems="10"
-            android:hint="Username"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
             android:id="@+id/firstNameEdit"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="210dp"
-            android:ems="10"
             android:background="@drawable/light_grey_bg"
+            android:ems="10"
             android:hint="First Name"
+            android:inputType="text"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/usernameEdit" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/lastNameEdit"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="25dp"
-            android:ems="10"
             android:background="@drawable/light_grey_bg"
+            android:ems="10"
             android:hint="Last Name"
+            android:inputType="text"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/firstNameEdit"
-            app:layout_constraintTop_toBottomOf="@+id/usernameEdit" />
-
-        <EditText
-            android:id="@+id/emailEdit"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="25dp"
-            android:ems="10"
-            android:background="@drawable/light_grey_bg"
-            android:hint="Email Address"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/firstNameEdit" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/heightEdit"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="250dp"
+            android:background="@drawable/light_grey_bg"
             android:ems="10"
+            android:inputType="numberDecimal"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:background="@drawable/light_grey_bg"
-            android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
+            app:layout_constraintTop_toBottomOf="@+id/firstNameEdit" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:text="Cm"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/heightEdit"
-            app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
+            app:layout_constraintTop_toBottomOf="@+id/firstNameEdit" />
 
         <EditText
             android:id="@+id/weightEdit"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="60dp"
+            android:background="@drawable/light_grey_bg"
             android:ems="10"
+            android:inputType="numberDecimal"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:background="@drawable/light_grey_bg"
-            android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
+            app:layout_constraintTop_toBottomOf="@+id/lastNameEdit" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="25dp"
             android:gravity="center_vertical"
             android:text="Kg"
@@ -219,38 +186,38 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/weightEdit"
-            app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
+            app:layout_constraintTop_toBottomOf="@+id/lastNameEdit" />
 
         <Spinner
             android:id="@+id/spinnerEdit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="25dp"
             android:background="@drawable/light_grey_bg"
-            android:tint="@color/white"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/saveChangesBtn"
+            android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/heightEdit" />
 
         <Button
             android:id="@+id/saveChangesBtn"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="100dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="100dp"
-            android:layout_marginBottom="100dp"
             android:background="@drawable/dark_grey_bg"
             android:text="Save Changes"
             android:textAllCaps="false"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerEdit" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,42 +7,64 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.fitnessapp.workout_routine.WorkoutRoutine
+import com.example.fitnessapp.workout_routine.WorkoutRoutineAdapter
+import com.example.fitnessapp.workout_routine.workoutRoutineList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Workout : Fragment() {
 
-    private lateinit var chestWorkoutButton: Button
-    private lateinit var backWorkoutButton: Button
-    private lateinit var legWorkoutButton: Button
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: WorkoutRoutineAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_workout, container, false)
 
-        // Initialize buttons and other views
-        chestWorkoutButton = view.findViewById(R.id.chestWorkout)
-        backWorkoutButton = view.findViewById(R.id.backWorkout)
-        legWorkoutButton = view.findViewById(R.id.legWorkout)
+        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val username = sharedPreferences.getString("username", "User")
 
-        // Retrieve the username from SharedPreferences
-        val sharedPreferences =
-            requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val username = sharedPreferences.getString("username", "User") // Default to "User" if not found
-
-        // Update the TextView with the username
         val helloText: TextView = view.findViewById(R.id.helloTXT)
-        helloText.text = "Welcome $username"
+        helloText.text = "Welcome, $username!"
         Log.i("User", "USER: $username")
 
-        // Set button click listeners
-        chestWorkoutButton.setOnClickListener {
-            val intent = Intent(requireContext(), ChestWorkout::class.java)
+        recyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Initialize adapter with click listener
+        adapter = WorkoutRoutineAdapter { workoutRoutine ->
+            // Navigate to WorkoutRoutineActivity on item click
+            val intent = Intent(requireContext(), WorkoutRoutine::class.java)
+            intent.putExtra("WORKOUT_ID", workoutRoutine.id) // Passing workout ID
             startActivity(intent)
+        }
+        recyclerView.adapter = adapter
+
+        // Fetch workout routines asynchronously
+        lifecycleScope.launch {
+            val workoutRoutines = withContext(Dispatchers.IO) {
+                workoutRoutineList(requireContext())
+            }
+
+            workoutRoutines.forEach { routine ->
+                Log.i("WorkoutRoutine", "Routine: ${routine.name}")
+            }
+
+            if (workoutRoutines.isNotEmpty()) {
+                helloText.text = "Welcome, $username!"
+                adapter.submitList(workoutRoutines)
+            } else {
+                helloText.text = "Welcome, $username!"
+            }
         }
 
         return view

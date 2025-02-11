@@ -87,90 +87,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-            <Button
-                android:id="@+id/chestWorkout"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/dark_grey_bg"
-                android:text="Chest Workout"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:backgroundTint="@color/lightGrey"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <ImageView
-                android:id="@+id/chestIMG"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:elevation="100dp"
-                app:layout_constraintBottom_toBottomOf="@+id/chestWorkout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.024"
-                app:layout_constraintStart_toStartOf="@+id/chestWorkout"
-                app:layout_constraintTop_toTopOf="@+id/chestWorkout"
-                app:layout_constraintVertical_bias="0.6"
-                app:srcCompat="@drawable/chest_icon" />
-
-            <Button
-                android:id="@+id/backWorkout"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/dark_grey_bg"
-                android:text="Back Workout"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:backgroundTint="@color/lightGrey"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chestWorkout" />
-
-            <ImageView
-                android:id="@+id/backIMG"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:elevation="100dp"
-                app:layout_constraintBottom_toBottomOf="@+id/backWorkout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.024"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/backWorkout"
-                app:layout_constraintVertical_bias="0.6"
-                app:srcCompat="@drawable/back_icon" />
-
-            <Button
-                android:id="@+id/legWorkout"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/dark_grey_bg"
-                android:text="Leg Workout"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:backgroundTint="@color/lightGrey"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/backWorkout" />
-
-            <ImageView
-                android:id="@+id/legIMG"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:elevation="100dp"
-                app:layout_constraintBottom_toBottomOf="@+id/legWorkout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.024"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/legWorkout"
-                app:layout_constraintVertical_bias="0.6"
-                app:srcCompat="@drawable/leg_icon" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
