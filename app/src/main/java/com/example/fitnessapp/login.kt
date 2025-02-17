@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.Call
@@ -23,6 +24,8 @@ class Login : AppCompatActivity() {
     lateinit var passwordInput: EditText
     lateinit var loginButton: Button
     lateinit var sharedPreferences: SharedPreferences
+    lateinit var rememberMeCheckbox: CheckBox
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +35,11 @@ class Login : AppCompatActivity() {
         usernameInput = findViewById(R.id.username_input)
         passwordInput = findViewById(R.id.password_input)
         loginButton = findViewById(R.id.login_btn)
+        rememberMeCheckbox = findViewById(R.id.checkBox)
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
 
-        // Handle login button click
         loginButton.setOnClickListener {
             val username = usernameInput.text.toString()
             val password = passwordInput.text.toString()
@@ -47,7 +50,6 @@ class Login : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Make login request
             postLoginRequestOkHttp(username, password)
         }
     }
@@ -66,13 +68,11 @@ class Login : AppCompatActivity() {
         """
         val requestBody = jsonBody.toRequestBody("application/json".toMediaType())
 
-        // Build the request
         val request = Request.Builder()
             .url(url)
             .post(requestBody)
             .build()
 
-        // Send the request asynchronously
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
@@ -94,15 +94,14 @@ class Login : AppCompatActivity() {
                     editor.putString("token", token)
                     editor.putString("firstName", firstName)
                     editor.putString("lastName", lastName)
+                    editor.putBoolean("rememberMe", rememberMeCheckbox.isChecked)
                     editor.apply()
 
                     if (firstName == "null" || firstName == "") {
-                        // Navigate to CreateProfile
                         val intent = Intent(this@Login, CreateProfile::class.java)
                         startActivity(intent)
                         finish()
                     } else {
-                        // Navigate to HomePage
                         val intent = Intent(this@Login, HomePage::class.java)
                         startActivity(intent)
                         finish()
@@ -114,10 +113,9 @@ class Login : AppCompatActivity() {
         })
     }
 }
-// Function to extract token from response
+
 private fun extractTokenFromResponse(responseBody: String?): String {
     return try {
-        // Use org.json.JSONObject to parse the response body
         val jsonObject = org.json.JSONObject(responseBody ?: "")
         jsonObject.getString("token")
     } catch (e: Exception) {

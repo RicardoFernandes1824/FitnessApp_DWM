@@ -2,6 +2,7 @@ package com.example.fitnessapp
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ class Settings : Fragment() {
 
     private lateinit var editProfileBtn: Button
     private lateinit var accountSettingsBtn: Button
+    private lateinit var logoutBtn: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +32,7 @@ class Settings : Fragment() {
 
         editProfileBtn = view.findViewById(R.id.editProfile_btn)
         accountSettingsBtn = view.findViewById(R.id.account_btn)
+        logoutBtn = view.findViewById(R.id.logout)
 
         editProfileBtn.setOnClickListener {
             val intent = Intent(requireContext(), editProfile::class.java)
@@ -39,6 +42,19 @@ class Settings : Fragment() {
         accountSettingsBtn.setOnClickListener {
             val intent = Intent(requireContext(), AccountSettings::class.java)
             startActivity(intent)
+        }
+
+        logoutBtn.setOnClickListener {
+
+            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+
+            editor.clear()
+            editor.apply()
+
+            val i = Intent(requireActivity(), MainActivity::class.java)
+
+            startActivity(i)
+            requireActivity().finish()
         }
 
         return view

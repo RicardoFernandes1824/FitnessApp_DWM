@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -44,13 +46,25 @@ class editProfile : AppCompatActivity() {
         saveChangesButton = findViewById(R.id.saveChangesBtn)
         goBackEditButton = findViewById(R.id.goBackEdit)
 
-        // Populate the Spinner with gender options
         val genderOptions = resources.getStringArray(R.array.gender_options)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genderOptions)
+
+        val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genderOptions) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                view.setBackgroundResource(R.drawable.light_grey_bg)
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                view.setBackgroundResource(R.color.lightGrey)
+                return view
+            }
+        }
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         genderSpinner.adapter = adapter
 
-        // Retrieve the username from SharedPreferences
         val sharedPreferences =
             getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val userId = sharedPreferences.getString("userId", "").orEmpty()
