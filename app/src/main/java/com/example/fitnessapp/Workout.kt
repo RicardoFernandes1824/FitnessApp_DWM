@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,7 @@ class Workout : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: WorkoutRoutineAdapter
+    private lateinit var createWorkoutBtn: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,17 +41,20 @@ class Workout : Fragment() {
 
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        createWorkoutBtn = view.findViewById(R.id.createWorkoutBtn)
 
-        // Initialize adapter with click listener
+        createWorkoutBtn.setOnClickListener{
+            val intent = Intent(requireContext(), CreateWorkout::class.java)
+            startActivity(intent)
+        }
+
         adapter = WorkoutRoutineAdapter { workoutRoutine ->
-            // Navigate to WorkoutRoutineActivity on item click
             val intent = Intent(requireContext(), WorkoutRoutine::class.java)
             intent.putExtra("WORKOUT_ID", workoutRoutine.id) // Passing workout ID
             startActivity(intent)
         }
         recyclerView.adapter = adapter
 
-        // Fetch workout routines asynchronously
         lifecycleScope.launch {
             val workoutRoutines = withContext(Dispatchers.IO) {
                 workoutRoutineList(requireContext())
