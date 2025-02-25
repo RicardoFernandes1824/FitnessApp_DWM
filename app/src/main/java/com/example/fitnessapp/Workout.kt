@@ -49,8 +49,8 @@ class Workout : Fragment() {
         }
 
         adapter = WorkoutRoutineAdapter { workoutRoutine ->
-            val intent = Intent(requireContext(), WorkoutRoutine::class.java)
-            intent.putExtra("WORKOUT_ID", workoutRoutine.id) // Passing workout ID
+            val intent = Intent(requireContext(), Workout_Name::class.java)
+            intent.putExtra("WORKOUT_ID", workoutRoutine.id)
             startActivity(intent)
         }
         recyclerView.adapter = adapter

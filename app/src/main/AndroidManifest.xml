@@ -38,7 +38,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".ChestWorkout"
+            android:name=".Workout_Name"
             android:exported="false" />
 
         <activity

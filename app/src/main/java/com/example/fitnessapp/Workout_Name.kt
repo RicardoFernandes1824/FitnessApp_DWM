@@ -8,11 +8,12 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
-class ChestWorkout : AppCompatActivity() {
+class Workout_Name : AppCompatActivity() {
 
     private lateinit var goBackButton: ImageButton
     private lateinit var startWorkoutButton: Button
@@ -20,26 +21,30 @@ class ChestWorkout : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.chest_workout)
+        setContentView(R.layout.workout_name_screen)
 
         // Initialize views
         goBackButton = findViewById(R.id.goBack_btn)
         startWorkoutButton = findViewById(R.id.startWorkout_btn)
         workoutRoutineName = findViewById(R.id.worktoutRoutineName) // Ensure this matches your layout ID
 
-        // Testar
-        fetchWorkoutRoutine("1") // Replace "1" with the desired ID
+        val workoutId = intent.getIntExtra("WORKOUT_ID", -1) // Gets the workout ID
+        Log.d("Workout_Name", "Received WORKOUT_ID: $workoutId")
+
+        if (workoutId != -1) {
+            fetchWorkoutRoutine(workoutId.toString())
+        }
 
         // Set up listeners
         goBackButton.setOnClickListener {
-            val intent = Intent(this@ChestWorkout, HomePage::class.java)
+            val intent = Intent(this@Workout_Name, HomePage::class.java)
             startActivity(intent)
         }
     }
 
-    private fun fetchWorkoutRoutine(id: String) {
+    private fun fetchWorkoutRoutine(workoutId: String) {
         val client = OkHttpClient()
-        val url = "http://10.0.2.2:8080/workoutRoutine/$id"
+        val url = "http://10.0.2.2:8080/workoutRoutine/${workoutId}"
 
         val request = Request.Builder()
             .url(url)
@@ -56,13 +61,22 @@ class ChestWorkout : AppCompatActivity() {
                     Log.i("WorkoutRoutine", "Error: $response")
                 } else {
                     val responseBody = response.body?.string()
+                    Log.d("WorkoutRoutine", "Response Body: $responseBody")
                     if (responseBody != null) {
                         try {
-                            val jsonObject = JSONObject(responseBody)
-                            val workoutName = jsonObject.getString("name")
-
-                            runOnUiThread {
-                                workoutRoutineName.text = workoutName
+                            val jsonArray = JSONArray(responseBody) // Parse as JSONArray
+                            // Loop through the array to find the workout by ID
+                            val workoutIdToFind = workoutId.toInt() // Convert workoutId string to int
+                            for (i in 0 until jsonArray.length()) {
+                                val workout = jsonArray.getJSONObject(i)
+                                val workoutID = workout.optInt("id")
+                                if (workoutID == workoutIdToFind) {
+                                    val workoutName = workout.optString("name", "Unknown Workout")
+                                    runOnUiThread {
+                                        workoutRoutineName.text = workoutName
+                                    }
+                                    break // Exit once found
+                                }
                             }
                         } catch (e: JSONException) {
                             Log.i("WorkoutRoutine", "JSON Parsing error: ${e.message}")
