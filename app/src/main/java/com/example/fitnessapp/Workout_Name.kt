@@ -75,7 +75,7 @@ class Workout_Name : AppCompatActivity() {
                                     runOnUiThread {
                                         workoutRoutineName.text = workoutName
                                     }
-                                    break // Exit once found
+                                    break
                                 }
                             }
                         } catch (e: JSONException) {

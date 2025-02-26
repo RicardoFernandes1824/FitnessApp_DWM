@@ -14,7 +14,7 @@ suspend fun exerciseList(context: Context, client: OkHttpClient = OkHttpClient()
     withContext(Dispatchers.IO) {
 
         val request = Request.Builder()
-            .url("http://10.0.2.2:8080/exercise") // Change to proper API URL
+            .url("http://10.0.2.2:8080/exercise")
             .build()
 
         try {

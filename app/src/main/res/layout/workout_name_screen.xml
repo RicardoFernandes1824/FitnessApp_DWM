@@ -53,7 +53,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/LayoutEX1"
+        android:id="@+id/LayoutExercises"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginStart="25dp"
@@ -65,178 +65,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LayoutVideo">
 
-        <TextView
-            android:id="@+id/exerciseNameTXT"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="100dp"
-            android:gravity="start"
-            android:paddingTop="20dp"
-            android:paddingBottom="30dp"
-            android:text="Incline Chest Press"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/exercisesDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/set1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="208dp"
-            android:gravity="start"
-            android:paddingTop="60dp"
-            android:text="3 Sets"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/exerciseNameTXT"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/exerciseNameTXT"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/reps1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:gravity="center"
-            android:paddingTop="40dp"
-            android:text="12 Reps"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/LayoutEX2"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/dark_grey_bg"
-        android:backgroundTint="@color/lightGrey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LayoutEX1">
-
-        <TextView
-            android:id="@+id/chestPressTXT"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="100dp"
-            android:gravity="start"
-            android:paddingTop="20dp"
-            android:paddingBottom="30dp"
-            android:text="Dumbbell Chest Press"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/set2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="208dp"
-            android:gravity="start"
-            android:paddingTop="40dp"
-            android:text="3 Sets"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/chestPressTXT"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/chestPressTXT"
-            app:layout_constraintTop_toTopOf="@+id/chestPressTXT" />
-
-        <TextView
-            android:id="@+id/reps2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:gravity="center"
-            android:paddingTop="40dp"
-            android:text="12 Reps"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/chestPressTXT"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/LayoutEx3"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/dark_grey_bg"
-        android:backgroundTint="@color/lightGrey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LayoutEX2">
-
-        <TextView
-            android:id="@+id/ex3"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="100dp"
-            android:gravity="start"
-            android:paddingTop="20dp"
-            android:paddingBottom="30dp"
-            android:text="Peck Deck"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/set3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="208dp"
-            android:gravity="start"
-            android:paddingTop="60dp"
-            android:text="3 Sets"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/ex3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/ex3"
-            app:layout_constraintTop_toTopOf="@+id/textView9" />
-
-        <TextView
-            android:id="@+id/reps3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:gravity="center"
-            android:paddingTop="40dp"
-            android:text="12 Reps"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/ex3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -247,20 +83,19 @@
         android:layout_marginEnd="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LayoutEx3">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/startWorkout_btn"
             android:layout_width="250dp"
             android:layout_height="80dp"
+            android:layout_marginStart="100dp"
+            android:background="@drawable/light_grey_bg"
+            android:gravity="center"
             android:text="Start Workout"
             android:textColor="@color/black"
-            android:textStyle="bold"
             android:textSize="20sp"
-            android:background="@drawable/light_grey_bg"
-            android:layout_marginStart="100dp"
-            android:gravity="center"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -270,9 +105,9 @@
             android:id="@+id/goBack_btn"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:scaleType="fitCenter"
             android:layout_marginEnd="55dp"
             android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/startWorkout_btn"
             app:layout_constraintStart_toStartOf="parent"
