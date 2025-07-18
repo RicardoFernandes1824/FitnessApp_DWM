@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/light_grey_bg_no_radius"
+    android:layout_marginTop="8dp">
+
+    <!-- Header: image, name, 3-dot menu -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/exerciseImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/chest_icon"
+            android:contentDescription="Exercise Image" />
+
+        <TextView
+            android:id="@+id/exerciseName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Exercise Name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:paddingStart="16dp" />
+
+        <ImageButton
+            android:id="@+id/removeExerciseBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/three_dots"
+            android:contentDescription="Remove Exercise" />
+    </LinearLayout>
+
+    <!-- Column headers -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp"
+        android:background="@drawable/light_grey_bg_no_radius">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sets"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="18sp"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Reps"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="18sp"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- Sets table -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/setsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false" />
+
+    <!-- Add Set button -->
+    <Button
+        android:id="@+id/addSetBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="+ Add Set"
+        android:textAllCaps="false"
+        android:layout_marginTop="8dp"
+        android:background="@color/orange"
+        android:textStyle="bold" />
+
+</LinearLayout> 

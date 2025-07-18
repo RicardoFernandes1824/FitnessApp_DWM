@@ -3,13 +3,13 @@
         <item
             android:id="@+id/perfil"
             android:title="Profile"
-            android:icon="@drawable/baseline_person_outline_24"/>
+            android:icon="@drawable/user"/>
         <item
             android:id="@+id/workout"
             android:title="Worktout"
-            android:icon="@drawable/dumbbell"/>
+            android:icon="@drawable/dumbbells"/>
         <item
             android:id="@+id/settings"
             android:title="Settings"
-            android:icon="@drawable/setting"/>
+            android:icon="@drawable/settings"/>
 </menu>

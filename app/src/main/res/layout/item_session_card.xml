@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sessionCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    android:background="@color/white"
+    android:elevation="4dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="18dp">
+
+        <!-- Username and time ago -->
+        <TextView
+            android:id="@+id/sessionUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="infinityrs"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/sessionTimeAgo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6 hours ago"
+            android:textColor="@color/darkGrey"
+            android:textSize="13sp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Workout Name -->
+        <TextView
+            android:id="@+id/sessionWorkoutName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Push Day"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Time and Volume Row -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/sessionDurationLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Duration"
+                android:textColor="@color/darkGrey"
+                android:textSize="15sp"
+                android:layout_marginEnd="4dp"/>
+
+            <TextView
+                android:id="@+id/sessionTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="45min"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp"/>
+
+            <TextView
+                android:id="@+id/sessionVolumeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Volume"
+                android:textColor="@color/darkGrey"
+                android:textSize="15sp"
+                android:layout_marginEnd="4dp"/>
+            <TextView
+                android:id="@+id/sessionVolume"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3 233 kg"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Exercises List -->
+        <LinearLayout
+            android:id="@+id/sessionExercisesLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- See more -->
+        <TextView
+            android:id="@+id/sessionSeeMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="See 3 more exercises"
+            android:textColor="@color/darkGrey"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Like and Comment Icons Row -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/sessionLikeIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/like"
+                android:tint="@color/darkGrey"
+                android:padding="4dp"
+                android:layout_marginEnd="16dp"/>
+
+            <ImageView
+                android:id="@+id/sessionCommentIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/comment"
+                android:tint="@color/darkGrey"
+                android:padding="4dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView> 

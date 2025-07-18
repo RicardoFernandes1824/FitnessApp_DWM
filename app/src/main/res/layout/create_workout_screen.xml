@@ -52,9 +52,7 @@
         android:id="@+id/noExerciseAdded"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginStart="25dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/workoutRoutineName">
@@ -98,12 +96,12 @@
         app:layout_constraintTop_toBottomOf="@+id/noExerciseAdded" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/exercisesAdded"
+        android:id="@+id/exerciseTableRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/saveWorkoutRoutine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addExercise" />
@@ -112,16 +110,16 @@
         android:id="@+id/saveWorkoutRoutine"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="100dp"
-        android:text="Save"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/dark_grey_bg"
+        android:text="Save"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exercisesAdded" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

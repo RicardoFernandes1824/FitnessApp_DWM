@@ -64,6 +64,10 @@
         <activity
             android:name=".AddExercises"
             android:exported="false" />
+
+        <activity
+            android:name=".ActiveWorkoutActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

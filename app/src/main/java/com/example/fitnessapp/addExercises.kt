@@ -1,12 +1,16 @@
 package com.example.fitnessapp
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fitnessapp.CreateWorkout.Companion.EXTRA_SELECTED_EXERCISES
+import com.example.fitnessapp.exercise.Exercise
 import com.example.fitnessapp.exercise.ExerciseAdapter
 import com.example.fitnessapp.exercise.exerciseList
 import kotlinx.coroutines.launch
@@ -16,6 +20,7 @@ class AddExercises : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ExerciseAdapter
     private lateinit var goBackButton: ImageButton
+    private lateinit var addExerciseBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,21 +28,39 @@ class AddExercises : AppCompatActivity() {
 
         goBackButton = findViewById(R.id.goBackAddExercise)
         recyclerView = findViewById(R.id.recycler_add_exercise)
+        addExerciseBtn = findViewById(R.id.addExerciseBtn)
 
         goBackButton.setOnClickListener { finish() }
 
         // Set up RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = ExerciseAdapter { exercise ->
-            Log.d("Exercise Clicked", "Clicked on: ${exercise.name}")
+        adapter = ExerciseAdapter { selectedCount ->
+            addExerciseBtn.text = when (selectedCount) {
+                0, 1 -> "Add Exercise"
+                else -> "Add Exercises"
+            }
+            addExerciseBtn.isEnabled = selectedCount > 0
         }
         recyclerView.adapter = adapter
+
+        addExerciseBtn.isEnabled = false
+        addExerciseBtn.setOnClickListener {
+            val selectedExercises = ArrayList(adapter.getSelectedExercises())
+            val resultIntent = Intent().apply {
+                putExtra(EXTRA_SELECTED_EXERCISES, selectedExercises)
+            }
+            setResult(Activity.RESULT_OK, resultIntent)
+            finish()
+        }
 
         // Load exercises from API
         lifecycleScope.launch {
             val exercises = exerciseList(this@AddExercises) // Fetch API data
             runOnUiThread {
                 adapter.submitList(exercises) // Ensure UI update happens
+                // Restore previous selection if any
+                val previouslySelected = intent.getSerializableExtra(EXTRA_SELECTED_EXERCISES) as? ArrayList<Exercise> ?: arrayListOf()
+                adapter.setInitialSelection(previouslySelected)
             }
         }
     }

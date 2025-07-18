@@ -7,13 +7,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="20dp"
     app:cardElevation="0dp"
-    android:background="@drawable/exercise_card_bg"
     tools:context=".Workout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/exerciseCardLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@drawable/dark_grey_bg"
+        android:background="@drawable/exercise_card_selector"
         android:padding="8dp">
 
         <!-- Workout Image -->
@@ -29,7 +29,7 @@
             android:contentDescription="Exercise Image" />
 
         <TextView
-            android:id="@+id/exerciseName"
+            android:id="@+id/exercise_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"

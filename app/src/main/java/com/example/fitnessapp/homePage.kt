@@ -14,8 +14,14 @@ class HomePage : AppCompatActivity() {
         binding = HomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.bottomNavigationView.selectedItemId = R.id.workout
-        replaceFragment(Workout())
+        val selectedTab = intent.getStringExtra("SELECTED_TAB")
+        if (selectedTab == "workout") {
+            binding.bottomNavigationView.selectedItemId = R.id.workout
+            replaceFragment(Workout())
+        } else {
+            binding.bottomNavigationView.selectedItemId = R.id.workout
+            replaceFragment(Workout())
+        }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
