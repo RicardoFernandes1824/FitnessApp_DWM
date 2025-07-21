@@ -29,6 +29,7 @@ class Workout_Name : AppCompatActivity() {
     private lateinit var exercisesDisplay: RecyclerView
 
     data class WorkoutExerciseDisplay(
+        val id: Int,
         val name: String,
         val sets: Int
     )
@@ -77,10 +78,12 @@ class Workout_Name : AppCompatActivity() {
             val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
             val userId = sharedPreferences.getString("userId", null)?.toIntOrNull() ?: -1
             Log.d("Workout_Name", "Start Workout pressed. TemplateId: $workoutId, UserId: $userId")
+            Log.d("Workout_Name", "Workout title being passed: ${workoutRoutineName.text}")
             val intent = Intent(this, ActiveWorkoutActivity::class.java)
             intent.putExtra("TEMPLATE_ID", workoutId)
             intent.putExtra("USER_ID", userId)
             intent.putExtra("WORKOUT_ID", workoutId) // Ensure WORKOUT_ID is included
+            intent.putExtra("WORKOUT_NAME", workoutRoutineName.text.toString())
             startActivity(intent)
         }
     }
@@ -112,11 +115,11 @@ class Workout_Name : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
+                val responseBody = response.body?.string()
+                Log.d("WorkoutRoutine", "Response Body: $responseBody")
                 if (!response.isSuccessful) {
                     Log.i("WorkoutRoutine", "Error: $response")
                 } else {
-                    val responseBody = response.body?.string()
-                    Log.d("WorkoutRoutine", "Response Body: $responseBody")
                     if (responseBody != null) {
                         try {
                             val workout = JSONObject(responseBody)
@@ -126,20 +129,25 @@ class Workout_Name : AppCompatActivity() {
                             for (j in 0 until exercisesArray.length()) {
                                 val exerciseObj = exercisesArray.getJSONObject(j)
                                 val exercise = exerciseObj.optJSONObject("exercise")
+                                val exerciseId = exercise?.optInt("id", -1) ?: -1
                                 val exerciseName = exercise?.optString("name", "Unknown Exercise") ?: "Unknown Exercise"
+                                Log.d("WorkoutRoutine", "Parsed exerciseId: $exerciseId for $exerciseName")
                                 val sets = exerciseObj.optInt("sets", 0)
                                 exerciseDisplays.add(
                                     WorkoutExerciseDisplay(
+                                        id = exerciseId,
                                         name = exerciseName,
                                         sets = sets
                                     )
                                 )
                             }
+                            Log.d("WorkoutRoutine", "Parsed exerciseDisplays: $exerciseDisplays")
                             Log.d("WorkoutRoutine", "Parsed workoutName: $workoutName")
                             Log.d("WorkoutRoutine", "Parsed exerciseDisplays: $exerciseDisplays")
                             runOnUiThread {
                                 Log.d("WorkoutRoutine", "Updating UI with workoutName and exerciseDisplays")
                                 workoutRoutineName.text = workoutName
+                                Log.d("Workout_Name", "workoutRoutineName.text set to: $workoutName")
                                 exercisesDisplay.adapter = WorkoutExerciseDisplayAdapter(exerciseDisplays)
                             }
                         } catch (e: JSONException) {
@@ -204,6 +212,12 @@ class WorkoutExerciseDisplayAdapter(private val items: List<Workout_Name.Workout
         val item = items[position]
         holder.exerciseName.text = item.name
         holder.setsCount.text = "Sets: ${item.sets}"
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, ExerciseGuideActivity::class.java)
+            intent.putExtra("EXERCISE_ID", item.id)
+            context.startActivity(intent)
+        }
     }
     override fun getItemCount() = items.size
 }

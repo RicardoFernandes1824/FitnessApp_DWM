@@ -1,5 +1,6 @@
 package com.example.fitnessapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -53,7 +54,8 @@ class ActiveWorkoutActivity : AppCompatActivity() {
 
         val goBackBtn = findViewById<android.widget.ImageButton>(R.id.goBackBtn)
         val workoutTitle = findViewById<android.widget.TextView>(R.id.activeWorkoutTitle)
-        workoutTitle.text = "Workout" // Default title
+        val workoutName = intent.getStringExtra("WORKOUT_NAME") ?: "Workout"
+        workoutTitle.text = workoutName
         goBackBtn.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Cancel Workout?")
@@ -140,8 +142,6 @@ class ActiveWorkoutActivity : AppCompatActivity() {
                         exercises.clear()
                         exercises.addAll(exerciseList)
                         adapter.notifyDataSetChanged()
-                        // Set the workout title to the first exercise's name or a default
-                        workoutTitle?.text = if (exerciseList.isNotEmpty()) exerciseList[0].name else "Workout"
                     }
                 } else {
                     runOnUiThread {
@@ -202,6 +202,11 @@ class ActiveWorkoutActivity : AppCompatActivity() {
             .setMessage("You completed $completedSets out of $totalSets sets!\nTotal Volume: $totalVolume kg\nGreat job!")
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
+                // Navigate to MainActivity and select profile tab
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("SELECTED_TAB", "profile")
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
                 finish()
             }
             .show()

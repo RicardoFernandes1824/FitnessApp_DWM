@@ -18,7 +18,7 @@
             android:id="@+id/exerciseImage"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/chest_icon"
+            android:src="@drawable/icon_chest"
             android:contentDescription="Exercise Image" />
 
         <TextView

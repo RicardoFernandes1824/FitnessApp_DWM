@@ -41,11 +41,19 @@ class WorkoutExerciseTableAdapter(
             // Set image if available, else default
             if (workoutExercise.exercise.imageUrl != null) {
                 // TODO: Load image from URL if needed
-                exerciseImage.setImageResource(R.drawable.chest_icon)
+                exerciseImage.setImageResource(R.drawable.icon_chest)
             } else {
-                exerciseImage.setImageResource(R.drawable.chest_icon)
+                exerciseImage.setImageResource(R.drawable.icon_chest)
             }
             exerciseName.text = workoutExercise.exercise.name
+
+            // Launch ExerciseGuideActivity on exercise name click
+            exerciseName.setOnClickListener {
+                val context = itemView.context
+                val intent = android.content.Intent(context, com.example.fitnessapp.ExerciseGuideActivity::class.java)
+                intent.putExtra("EXERCISE_ID", workoutExercise.exercise.id)
+                context.startActivity(intent)
+            }
 
             // Remove exercise via dropdown
             removeExerciseBtn.setOnClickListener {

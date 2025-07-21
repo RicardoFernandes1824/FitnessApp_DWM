@@ -74,7 +74,8 @@ class StatsActivity : AppCompatActivity() {
             routinesAdapter?.updateList(filtered)
         } else {
             val filtered = allExercises.filter {
-                it.name.contains(query, ignoreCase = true)
+                it.name.contains(query, ignoreCase = true) ||
+                it.category.contains(query, ignoreCase = true)
             }
             exercisesAdapter?.updateList(filtered)
         }

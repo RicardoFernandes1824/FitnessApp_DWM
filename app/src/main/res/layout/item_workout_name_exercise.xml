@@ -17,7 +17,7 @@
             android:layout_height="80dp"
             android:contentDescription="Exercise Image"
             android:scaleType="centerCrop"
-            android:src="@drawable/chest_icon"
+            android:src="@drawable/icon_chest"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

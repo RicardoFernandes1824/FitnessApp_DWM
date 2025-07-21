@@ -64,7 +64,7 @@ class Workout : Fragment() {
                 }
             )
             recyclerView.adapter = adapter
-            adapter.submitList(workoutRoutines)
+                adapter.submitList(workoutRoutines)
         }
 
         return view
