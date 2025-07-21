@@ -7,6 +7,7 @@
     import android.view.LayoutInflater
     import android.view.View
     import android.view.ViewGroup
+    import android.widget.Button
     import android.widget.TextView
     import androidx.fragment.app.Fragment
     import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,9 @@
     import java.text.DateFormat
     import java.text.SimpleDateFormat
     import java.util.*
+    import android.content.Intent
+    import android.widget.LinearLayout
+    import android.view.Gravity
 
     class Profile : Fragment() {
         private lateinit var sessionRecyclerView: RecyclerView
@@ -64,6 +68,24 @@
             }
 
             return view
+        }
+
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            val sessionsStatsBtn: Button = view.findViewById(R.id.sessionsStatsBtn)
+            val exerciseStatsBtn: Button = view.findViewById(R.id.exerciseStatsBtn)
+
+            sessionsStatsBtn.setOnClickListener {
+                val intent = Intent(requireContext(), StatsActivity::class.java)
+                intent.putExtra("STATS_TYPE", "sessions")
+                startActivity(intent)
+            }
+
+            exerciseStatsBtn.setOnClickListener {
+                val intent = Intent(requireContext(), StatsActivity::class.java)
+                intent.putExtra("STATS_TYPE", "exercises")
+                startActivity(intent)
+            }
         }
 
         private fun fetchSessions(userId: Int) {

@@ -80,15 +80,28 @@ class SessionAdapter(
         if (endTime == null) return "-"
         return try {
             val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+            isoFormat.timeZone = TimeZone.getTimeZone("UTC")
             val endDate = isoFormat.parse(endTime) ?: return "-"
-            val now = Date()
-            val diff = (now.time - endDate.time) / 1000 // seconds
-            val hours = diff / 3600
-            val minutes = (diff % 3600) / 60
-            when {
-                hours > 0 -> "$hours hours ago"
-                minutes > 0 -> "$minutes min ago"
-                else -> "just now"
+            val now = Calendar.getInstance()
+            val endCal = Calendar.getInstance().apply { time = endDate }
+            val diffMillis = now.timeInMillis - endCal.timeInMillis
+
+            // Check if it was yesterday
+            val yesterday = Calendar.getInstance().apply {
+                add(Calendar.DATE, -1)
+            }
+            val isYesterday = yesterday.get(Calendar.YEAR) == endCal.get(Calendar.YEAR) &&
+                    yesterday.get(Calendar.DAY_OF_YEAR) == endCal.get(Calendar.DAY_OF_YEAR)
+
+            return when {
+                diffMillis < 60 * 1000 -> "Just now"
+                diffMillis < 60 * 60 * 1000 -> "${diffMillis / (60 * 1000)}m ago"
+                diffMillis < 24 * 60 * 60 * 1000 && now.get(Calendar.DAY_OF_YEAR) == endCal.get(Calendar.DAY_OF_YEAR) -> "${diffMillis / (60 * 60 * 1000)}h ago"
+                isYesterday -> "Yesterday"
+                else -> {
+                    val sdf = SimpleDateFormat("MMMM d, yyyy", Locale.getDefault())
+                    sdf.format(endDate)
+                }
             }
         } catch (e: Exception) {
             "-"

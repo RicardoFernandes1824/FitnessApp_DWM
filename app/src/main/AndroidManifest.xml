@@ -68,6 +68,8 @@
         <activity
             android:name=".ActiveWorkoutActivity"
             android:exported="false" />
+
+        <activity android:name=".StatsActivity" />
     </application>
 
 </manifest>

@@ -51,7 +51,7 @@ class Workout_Name : AppCompatActivity() {
         deleteBtn.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Delete Workout Template")
-                .setMessage("Are you sure you want to delete this workout template? This action cannot be undone.")
+                .setMessage("Are you sure you want to delete this Workout Routine? This action cannot be undone.")
                 .setPositiveButton("Delete") { dialog, _ ->
                     dialog.dismiss()
                     if (workoutId != -1) {
