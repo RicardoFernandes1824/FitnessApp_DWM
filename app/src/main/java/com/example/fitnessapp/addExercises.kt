@@ -3,7 +3,10 @@ package com.example.fitnessapp
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +24,8 @@ class AddExercises : AppCompatActivity() {
     private lateinit var adapter: ExerciseAdapter
     private lateinit var goBackButton: ImageButton
     private lateinit var addExerciseBtn: Button
+    private lateinit var searchEditText: EditText
+    private var allExercises: List<Exercise> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +34,7 @@ class AddExercises : AppCompatActivity() {
         goBackButton = findViewById(R.id.goBackAddExercise)
         recyclerView = findViewById(R.id.recycler_add_exercise)
         addExerciseBtn = findViewById(R.id.addExerciseBtn)
+        searchEditText = findViewById(R.id.editTextText)
 
         goBackButton.setOnClickListener { finish() }
 
@@ -53,15 +59,33 @@ class AddExercises : AppCompatActivity() {
             finish()
         }
 
+        // Listen for text changes to filter
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) { filterExercises() }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
         // Load exercises from API
         lifecycleScope.launch {
             val exercises = exerciseList(this@AddExercises) // Fetch API data
             runOnUiThread {
+                allExercises = exercises
                 adapter.submitList(exercises) // Ensure UI update happens
                 // Restore previous selection if any
                 val previouslySelected = intent.getSerializableExtra(EXTRA_SELECTED_EXERCISES) as? ArrayList<Exercise> ?: arrayListOf()
                 adapter.setInitialSelection(previouslySelected)
             }
         }
+    }
+
+    private fun filterExercises() {
+        val query = searchEditText.text.toString().trim().lowercase()
+        val filtered = allExercises.filter { exercise ->
+            query.isEmpty() ||
+            exercise.name.lowercase().contains(query) ||
+            exercise.category.lowercase().contains(query)
+        }
+        adapter.submitList(filtered)
     }
 }

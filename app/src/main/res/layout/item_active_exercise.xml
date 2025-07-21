@@ -99,5 +99,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"/>
+
+        <Button
+            android:id="@+id/addSetBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="Add Set" />
     </LinearLayout>
 </androidx.cardview.widget.CardView> 

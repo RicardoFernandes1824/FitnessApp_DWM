@@ -80,6 +80,7 @@ class Workout_Name : AppCompatActivity() {
             val intent = Intent(this, ActiveWorkoutActivity::class.java)
             intent.putExtra("TEMPLATE_ID", workoutId)
             intent.putExtra("USER_ID", userId)
+            intent.putExtra("WORKOUT_ID", workoutId) // Ensure WORKOUT_ID is included
             startActivity(intent)
         }
     }

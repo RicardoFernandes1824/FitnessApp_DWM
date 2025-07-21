@@ -24,7 +24,7 @@ class Workout : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: WorkoutRoutineAdapter
-    private lateinit var createWorkoutBtn: Button
+    // Removed: private lateinit var createWorkoutBtn: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,35 +41,30 @@ class Workout : Fragment() {
 
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        createWorkoutBtn = view.findViewById(R.id.createWorkoutBtn)
+        // Removed: createWorkoutBtn = view.findViewById(R.id.createWorkoutBtn)
 
-        createWorkoutBtn.setOnClickListener{
-            val intent = Intent(requireContext(), CreateWorkout::class.java)
-            startActivity(intent)
-        }
-
-        adapter = WorkoutRoutineAdapter { workoutRoutine ->
-            val intent = Intent(requireContext(), Workout_Name::class.java)
-            intent.putExtra("WORKOUT_ID", workoutRoutine.id)
-            startActivity(intent)
-        }
-        recyclerView.adapter = adapter
+        // Removed: createWorkoutBtn.setOnClickListener{ ... }
 
         lifecycleScope.launch {
             val workoutRoutines = withContext(Dispatchers.IO) {
                 workoutRoutineList(requireContext())
             }
 
-            workoutRoutines.forEach { routine ->
-                Log.i("WorkoutRoutine", "Routine: ${routine.name}")
-            }
-
-            if (workoutRoutines.isNotEmpty()) {
-                helloText.text = "Welcome, $username!"
-                adapter.submitList(workoutRoutines)
-            } else {
-                helloText.text = "Welcome, $username!"
-            }
+            val showHeader = workoutRoutines.size < 5
+            adapter = WorkoutRoutineAdapter(
+                showHeader,
+                onAddClick = {
+                    val intent = Intent(requireContext(), CreateWorkout::class.java)
+                    startActivity(intent)
+                },
+                onItemClick = { workoutRoutine ->
+                    val intent = Intent(requireContext(), Workout_Name::class.java)
+                    intent.putExtra("WORKOUT_ID", workoutRoutine.id)
+                    startActivity(intent)
+                }
+            )
+            recyclerView.adapter = adapter
+            adapter.submitList(workoutRoutines)
         }
 
         return view

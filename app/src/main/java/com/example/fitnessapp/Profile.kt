@@ -17,17 +17,24 @@
     import org.json.JSONObject
     import java.io.IOException
     import java.text.DateFormat
+    import java.text.ParseException
     import java.text.SimpleDateFormat
     import java.util.*
     import android.content.Intent
     import android.widget.LinearLayout
     import android.view.Gravity
+    import android.text.Editable
+    import android.text.TextWatcher
+    import android.widget.EditText
+    import java.util.Locale
 
     class Profile : Fragment() {
         private lateinit var sessionRecyclerView: RecyclerView
         private lateinit var sessionAdapter: SessionAdapter
         private val sessions = mutableListOf<SessionCard>()
         private var user: String? = null
+        private lateinit var searchEditText: EditText
+        private var allSessions: List<SessionCard> = emptyList()
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +69,13 @@
             }
             sessionRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             sessionRecyclerView.adapter = sessionAdapter
+
+            searchEditText = view.findViewById(R.id.editTextText)
+            searchEditText.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) { filterSessions() }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            })
 
             if (userId != -1) {
                 fetchSessions(userId)
@@ -110,7 +124,6 @@
                                 val endTime = obj.optString("endTime", null)
                                 // Parse exercises from trainningSessionSet
                                 val setsArr = obj.optJSONArray("trainningSessionSet") ?: JSONArray()
-                                val exerciseMap = mutableMapOf<String, ExerciseDone>()
                                 val allSetsList = mutableListOf<SessionSetRow>()
                                 for (j in 0 until setsArr.length()) {
                                     val setObj = setsArr.getJSONObject(j)
@@ -120,19 +133,18 @@
                                     val setNumber = setObj.optInt("setNumber", 0)
                                     Log.d("Profile", "Parsed set: exName=$exName, reps=$reps, weight=$weight")
                                     allSetsList.add(SessionSetRow(setNumber, exName, weight, reps))
-                                    val key = exName
-                                    if (exerciseMap.containsKey(key)) {
-                                        val ex = exerciseMap[key]!!
-                                        exerciseMap[key] = ex.copy(sets = ex.sets + 1)
-                                    } else {
-                                        exerciseMap[key] = ExerciseDone(exName, 1, reps, weight, null)
-                                    }
                                 }
-                                val exercises = exerciseMap.values.toList()
+                                // Group sets by exercise name and count
+                                val setsByExercise = allSetsList.groupBy { it.exerciseName }
+                                val exercises = setsByExercise.map { (exName, sets) ->
+                                    ExerciseDone(exName, sets.size, sets.lastOrNull()?.reps, sets.lastOrNull()?.weight, null)
+                                }
+                                Log.d("MY_CENAS", exercises.toString())
                                 sessionList.add(SessionCard(id, workoutName, startTime, endTime, user, exercises, allSetsList))
                             }
                         }
                         requireActivity().runOnUiThread {
+                            allSessions = sessionList
                             sessions.clear()
                             sessions.addAll(sessionList)
                             sessionAdapter.notifyDataSetChanged()
@@ -140,6 +152,30 @@
                     }
                 }
             })
+        }
+
+        private fun formatDate(isoString: String?): String {
+            if (isoString.isNullOrEmpty()) return ""
+            return try {
+                val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                val date = isoFormat.parse(isoString)
+                val desiredFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                if (date != null) desiredFormat.format(date) else ""
+            } catch (e: ParseException) {
+                ""
+            }
+        }
+
+        private fun filterSessions() {
+            val query = searchEditText.text.toString().trim().lowercase()
+            val filtered = allSessions.filter { session ->
+                query.isEmpty() ||
+                session.workoutName.lowercase().contains(query) ||
+                formatDate(session.endTime).lowercase().contains(query)
+            }
+            sessions.clear()
+            sessions.addAll(filtered)
+            sessionAdapter.notifyDataSetChanged()
         }
     }
 

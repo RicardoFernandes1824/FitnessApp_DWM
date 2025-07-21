@@ -14,6 +14,12 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.provider.MediaStore
+import android.widget.ImageView
+import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
@@ -23,6 +29,12 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+import java.io.InputStream
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import com.bumptech.glide.Glide
 
 class editProfile : AppCompatActivity() {
     private lateinit var firstNameInput: EditText
@@ -32,6 +44,10 @@ class editProfile : AppCompatActivity() {
     private lateinit var genderSpinner: Spinner
     private lateinit var saveChangesButton: Button
     private lateinit var goBackEditButton: ImageButton
+    private lateinit var profileImageView: CircleImageView
+    private lateinit var changeImgButton: ImageButton
+    private val PICK_IMAGE_REQUEST = 1001
+    private var selectedImageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +61,13 @@ class editProfile : AppCompatActivity() {
         genderSpinner = findViewById(R.id.spinnerEdit)
         saveChangesButton = findViewById(R.id.saveChangesBtn)
         goBackEditButton = findViewById(R.id.goBackEdit)
+        profileImageView = findViewById(R.id.circleImageView)
+        changeImgButton = findViewById(R.id.changeImg)
+
+        changeImgButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        }
 
         val genderOptions = resources.getStringArray(R.array.gender_options)
 
@@ -112,6 +135,57 @@ class editProfile : AppCompatActivity() {
                 return@setOnClickListener
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+            selectedImageUri = data.data
+            profileImageView.setImageURI(selectedImageUri)
+            uploadProfileImage(selectedImageUri)
+        }
+    }
+
+    private fun uploadProfileImage(imageUri: Uri?) {
+        if (imageUri == null) return
+        val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getString("userId", "") ?: return
+        val contentResolver = applicationContext.contentResolver
+        val inputStream: InputStream? = contentResolver.openInputStream(imageUri)
+        val file = File(cacheDir, "profile_pic.jpg")
+        inputStream?.use { input ->
+            file.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+        val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), file)
+        val body = MultipartBody.Part.createFormData("photo", file.name, requestFile)
+        val client = OkHttpClient()
+        val request = okhttp3.Request.Builder()
+            .url("http://10.0.2.2:8080/user/$userId/photo")
+            .post(MultipartBody.Builder().setType(MultipartBody.FORM).addPart(body).build())
+            .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("ProfileImageUpload", "Upload failed: ${e.message}")
+            }
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body?.string()
+                    val photoPath = org.json.JSONObject(responseBody).optString("photo", null)
+                    if (photoPath != null) {
+                        runOnUiThread {
+                            Glide.with(this@editProfile)
+                                .load("http://10.0.2.2:8080$photoPath")
+                                .into(profileImageView)
+                        }
+                    }
+                    Log.i("ProfileImageUpload", "Upload successful")
+                } else {
+                    Log.e("ProfileImageUpload", "Upload failed: ${response.code}")
+                }
+            }
+        })
     }
 
     private fun patchUpdateUserRequestOkHttp(
@@ -203,6 +277,7 @@ class editProfile : AppCompatActivity() {
                         val height = jsonObject.optInt("height", 0)
                         val weight = jsonObject.optInt("weight", 0)
                         val gender = jsonObject.optString("gender", "")
+                        val photo = jsonObject.optString("photo", null)
 
                         // Update UI on the main thread
                         runOnUiThread {
@@ -215,6 +290,12 @@ class editProfile : AppCompatActivity() {
                             val genderIndex = resources.getStringArray(R.array.gender_options).indexOf(gender)
                             if (genderIndex != -1) {
                                 genderSpinner.setSelection(genderIndex)
+                            }
+                            // Load profile photo if available
+                            if (!photo.isNullOrEmpty()) {
+                                Glide.with(this@editProfile)
+                                    .load("http://10.0.2.2:8080$photo")
+                                    .into(profileImageView)
                             }
                         }
                     }

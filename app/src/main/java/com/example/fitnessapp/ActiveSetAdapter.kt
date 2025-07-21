@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import android.graphics.Color
 
 class ActiveSetAdapter(private val sets: MutableList<ActiveSet>) :
     RecyclerView.Adapter<ActiveSetAdapter.SetViewHolder>() {
@@ -34,9 +35,19 @@ class ActiveSetAdapter(private val sets: MutableList<ActiveSet>) :
         holder.repsInput.setText(if (set.reps > 0) set.reps.toString() else "")
         holder.repsInput.hint = set.templateReps?.toString() ?: "-"
         holder.confirmSetBtn.alpha = if (set.done) 1.0f else 0.5f
+        // Set initial color based on state
+        if (set.done) {
+            holder.confirmSetBtn.setColorFilter(android.graphics.Color.parseColor("#388E3C"))
+        } else {
+            holder.confirmSetBtn.clearColorFilter()
+        }
         holder.confirmSetBtn.setOnClickListener {
             set.done = !set.done
-            notifyItemChanged(position)
+            if (set.done) {
+                holder.confirmSetBtn.setColorFilter(android.graphics.Color.parseColor("#388E3C"))
+            } else {
+                holder.confirmSetBtn.clearColorFilter()
+            }
         }
         holder.weightInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -55,6 +66,11 @@ class ActiveSetAdapter(private val sets: MutableList<ActiveSet>) :
     }
 
     override fun getItemCount() = sets.size
+
+    fun removeSetAt(position: Int) {
+        sets.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     class SetViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val setNumber: TextView = view.findViewById(R.id.setNumber)

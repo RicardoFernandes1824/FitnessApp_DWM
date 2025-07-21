@@ -78,9 +78,7 @@ class ActiveWorkoutActivity : AppCompatActivity() {
 
         createSessionAndLoadData(templateId, userId, workoutTitle)
 
-        finishWorkoutBtn.setOnClickListener {
-            saveSessionResultsAndShowSummary()
-        }
+        finishWorkoutBtn.setOnClickListener { saveFullSessionAndShowSummary() }
     }
 
     private fun createSessionAndLoadData(templateId: Int, userId: Int, workoutTitle: android.widget.TextView? = null) {
@@ -104,6 +102,7 @@ class ActiveWorkoutActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
                 Log.d("ActiveWorkout", "Session response: $body")
+                Log.d("ActivityWorkout", response.code.toString())
                 if (response.isSuccessful && body != null) {
                     val json = JSONObject(body)
                     sessionId = json.optInt("sessionId", -1).takeIf { it != -1 }
@@ -114,7 +113,7 @@ class ActiveWorkoutActivity : AppCompatActivity() {
                         val exObj = exercisesJson.getJSONObject(i)
                         val exId = exObj.getInt("id")
                         val exName = exObj.getString("name")
-                        val exImage = exObj.optString("imageUrl", null)
+                        val exImage = exObj.optString("imageUrl", "")
                         // Find all sets for this exercise
                         val setsList = mutableListOf<ActiveSet>()
                         for (j in 0 until setsJson.length()) {
@@ -122,7 +121,6 @@ class ActiveWorkoutActivity : AppCompatActivity() {
                             if (setObj.getInt("exerciseId") == exId) {
                                 setsList.add(
                                     ActiveSet(
-                                        id = setObj.optInt("id", -1).takeIf { it != -1 },
                                         setNumber = setObj.getInt("setNumber"),
                                         previousWeight = if (setObj.isNull("previousWeight")) null else setObj.getInt("previousWeight"),
                                         previousReps = if (setObj.isNull("previousReps")) null else setObj.getInt("previousReps"),
@@ -154,24 +152,29 @@ class ActiveWorkoutActivity : AppCompatActivity() {
         })
     }
 
-    private fun saveSessionResultsAndShowSummary() {
+    private fun saveFullSessionAndShowSummary() {
         // Collect all set results
         val setsArray = JSONArray()
         for (ex in exercises) {
             for (set in ex.sets) {
-                if (set.id != null) {
-                    val setObj = JSONObject()
-                    setObj.put("id", set.id)
-                    setObj.put("weight", set.weight)
-                    setObj.put("reps", set.reps)
-                    setsArray.put(setObj)
-                }
+                val setObj = JSONObject()
+                setObj.put("exerciseId", ex.id)
+                setObj.put("setNumber", set.setNumber)
+                setObj.put("weight", set.weight)
+                setObj.put("reps", set.reps)
+                setObj.put("done", set.done)
+                setsArray.put(setObj)
             }
         }
         val json = JSONObject()
-        if (sessionId != null) json.put("sessionId", sessionId)
+        val userId = intent.getIntExtra("USER_ID", -1)
+        val workoutId = intent.getIntExtra("WORKOUT_ID", -1)
+        json.put("userId", userId)
+        json.put("workoutId", workoutId)
+        json.put("startTime", System.currentTimeMillis())
         json.put("sets", setsArray)
-        val url = "http://10.0.2.2:8080/workoutSession/saveResults"
+        Log.d("SessionSave", "finished: " + (exercises.all { ex -> ex.sets.all { it.done } }) + ", json: " + json.toString())
+        val url = "http://10.0.2.2:8080/workoutSession/saveFullSession"
         val client = OkHttpClient()
         val body = RequestBody.create("application/json".toMediaTypeOrNull(), json.toString())
         val request = Request.Builder().url(url).post(body).build()
@@ -193,9 +196,10 @@ class ActiveWorkoutActivity : AppCompatActivity() {
     private fun showSummaryDialog() {
         val completedSets = exercises.sumOf { ex -> ex.sets.count { it.done } }
         val totalSets = exercises.sumOf { it.sets.size }
+        val totalVolume = exercises.sumOf { ex -> ex.sets.filter { it.done }.sumOf { it.weight * it.reps } }
         AlertDialog.Builder(this)
             .setTitle("Workout Complete")
-            .setMessage("You completed $completedSets out of $totalSets sets!\nGreat job!")
+            .setMessage("You completed $completedSets out of $totalSets sets!\nTotal Volume: $totalVolume kg\nGreat job!")
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
                 finish()
