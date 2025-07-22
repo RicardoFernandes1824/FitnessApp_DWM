@@ -16,6 +16,7 @@ class Settings : Fragment() {
     private lateinit var editProfileBtn: Button
     private lateinit var accountSettingsBtn: Button
     private lateinit var logoutBtn: Button
+    private lateinit var exerciseBtn: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +34,7 @@ class Settings : Fragment() {
         editProfileBtn = view.findViewById(R.id.editProfile_btn)
         accountSettingsBtn = view.findViewById(R.id.account_btn)
         logoutBtn = view.findViewById(R.id.logout)
+        exerciseBtn = view.findViewById(R.id.exercise_btn)
 
         editProfileBtn.setOnClickListener {
             val intent = Intent(requireContext(), editProfile::class.java)
@@ -55,6 +57,11 @@ class Settings : Fragment() {
 
             startActivity(i)
             requireActivity().finish()
+        }
+
+        exerciseBtn.setOnClickListener {
+            val intent = Intent(requireContext(), ExerciseCategoriesActivity::class.java)
+            startActivity(intent)
         }
 
         return view
