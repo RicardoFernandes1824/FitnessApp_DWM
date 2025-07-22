@@ -13,7 +13,7 @@
         android:id="@+id/exerciseCardLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@drawable/exercise_card_selector"
+        android:background="@drawable/light_grey_bg_radius20"
         android:padding="8dp">
 
         <!-- Workout Image -->
