@@ -15,10 +15,8 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import android.app.Activity
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
-import android.widget.ImageView
 import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.Call
 import okhttp3.Callback
@@ -74,7 +72,7 @@ class editProfile : AppCompatActivity() {
         val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genderOptions) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
-                view.setBackgroundResource(R.drawable.light_grey_bg)
+                view.setBackgroundResource(R.drawable.light_grey_bg_radius100)
                 return view
             }
 

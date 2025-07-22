@@ -1,141 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sessionCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
     android:background="@color/white"
-    android:elevation="4dp">
+    android:elevation="0dp"
+    app:cardElevation="0dp"
+    app:cardUseCompatPadding="false"
+    app:cardPreventCornerOverlap="false">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="18dp">
+        android:layout_marginTop="5dp">
 
-        <!-- Username and time ago -->
-        <TextView
-            android:id="@+id/sessionUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="infinityrs"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+        <View
+            android:id="@+id/topBorder"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <TextView
-            android:id="@+id/sessionTimeAgo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="6 hours ago"
-            android:textColor="@color/darkGrey"
-            android:textSize="13sp"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- Workout Name -->
-        <TextView
-            android:id="@+id/sessionWorkoutName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Push Day"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- Time and Volume Row -->
+        <!-- Main content container -->
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/sessionCardContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp">
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/bottomBorder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <!-- Username and time ago -->
             <TextView
-                android:id="@+id/sessionDurationLabel"
+                android:id="@+id/sessionUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Duration"
-                android:textColor="@color/darkGrey"
-                android:textSize="15sp"
-                android:layout_marginEnd="4dp"/>
-
-            <TextView
-                android:id="@+id/sessionTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="45min"
+                android:text="infinityrs"
                 android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_marginEnd="16dp"/>
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/sessionVolumeLabel"
+                android:id="@+id/sessionTimeAgo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Volume"
+                android:layout_marginBottom="8dp"
+                android:text="6 hours ago"
                 android:textColor="@color/darkGrey"
-                android:textSize="15sp"
-                android:layout_marginEnd="4dp"/>
+                android:textSize="13sp" />
+
+            <!-- Workout Name -->
             <TextView
-                android:id="@+id/sessionVolume"
-                android:layout_width="0dp"
+                android:id="@+id/sessionWorkoutName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3 233 kg"
+                android:layout_marginBottom="8dp"
+                android:text="Push Day"
                 android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Time and Volume Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/sessionDurationLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="Duration"
+                    android:textColor="@color/darkGrey"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/sessionTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="45min"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/sessionVolumeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="Volume"
+                    android:textColor="@color/darkGrey"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/sessionVolume"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="3 233 kg"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/lightGrey" />
+
+            <!-- Exercises List -->
+            <LinearLayout
+                android:id="@+id/sessionExercisesLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <!-- See more -->
+            <TextView
+                android:id="@+id/sessionSeeMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="See 3 more exercises"
+                android:textColor="@color/darkGrey"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/beforeIconsDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/lightGrey" />
+
+            <!-- Like and Comment Icons Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:gravity="start"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/sessionLikeIcon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginEnd="16dp"
+                    android:padding="4dp"
+                    android:src="@drawable/like"
+                    android:tint="@color/black" />
+
+                <ImageView
+                    android:id="@+id/sessionCommentIcon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:padding="4dp"
+                    android:src="@drawable/comment"
+                    android:tint="@color/black" />
+            </LinearLayout>
         </LinearLayout>
 
         <View
-            android:layout_width="match_parent"
+            android:id="@+id/bottomBorder"
+            android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/lightGrey"
-            android:layout_marginBottom="8dp"/>
+            android:background="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Exercises List -->
-        <LinearLayout
-            android:id="@+id/sessionExercisesLayout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- See more -->
-        <TextView
-            android:id="@+id/sessionSeeMore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="See 3 more exercises"
-            android:textColor="@color/darkGrey"
-            android:textSize="14sp"
-            android:visibility="gone"
-            android:layout_marginTop="8dp"/>
-
-        <!-- Like and Comment Icons Row -->
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:layout_marginTop="8dp">
-
-            <ImageView
-                android:id="@+id/sessionLikeIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/like"
-                android:tint="@color/darkGrey"
-                android:padding="4dp"
-                android:layout_marginEnd="16dp"/>
-
-            <ImageView
-                android:id="@+id/sessionCommentIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/comment"
-                android:tint="@color/darkGrey"
-                android:padding="4dp"/>
-        </LinearLayout>
-    </LinearLayout>
-</androidx.cardview.widget.CardView> 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

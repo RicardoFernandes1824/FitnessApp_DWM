@@ -2,54 +2,34 @@ package com.example.fitnessapp
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.view.LayoutInflater
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
+import android.widget.ImageButton
 
 class SessionDetailActivity : AppCompatActivity() {
     private lateinit var sessionName: TextView
-    private lateinit var setsRecyclerView: RecyclerView
-    private lateinit var adapter: SessionSetAdapter
-    private val sets = mutableListOf<SessionSetRow>()
+    private lateinit var exercisesContainer: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_session_detail)
 
         sessionName = findViewById(R.id.sessionDetailWorkoutName)
-        setsRecyclerView = findViewById(R.id.sessionDetailSetsRecyclerView)
-        adapter = SessionSetAdapter(sets)
-        setsRecyclerView.layoutManager = LinearLayoutManager(this)
-        setsRecyclerView.adapter = adapter
+        exercisesContainer = findViewById(R.id.sessionDetailExercisesContainer)
+
+        findViewById<ImageButton>(R.id.goBackBtn).setOnClickListener { finish() }
 
         val sessionId = intent.getIntExtra("SESSION_ID", -1)
-        val templateId = intent.getIntExtra("TEMPLATE_ID", -1) // Pass this when opening the activity
-
-        val deleteBtn: Button = findViewById(R.id.deleteTemplateBtn)
-        deleteBtn.setOnClickListener {
-            AlertDialog.Builder(this)
-                .setTitle("Delete Workout Template")
-                .setMessage("Are you sure you want to delete this workout template? This action cannot be undone.")
-                .setPositiveButton("Delete") { dialog, _ ->
-                    dialog.dismiss()
-                    if (templateId != -1) {
-                        deleteWorkoutTemplate(templateId)
-                    } else {
-                        Toast.makeText(this, "Template ID not found", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
-                .show()
-        }
-
         if (sessionId != -1) {
             fetchSessionDetail(sessionId)
         }
@@ -69,49 +49,55 @@ class SessionDetailActivity : AppCompatActivity() {
                     val obj = JSONObject(body)
                     val workoutName = obj.optJSONObject("workout")?.optString("name") ?: "-"
                     val setsArr = obj.optJSONArray("trainningSessionSet") ?: JSONArray()
-                    val setList = mutableListOf<SessionSetRow>()
+                    // Group sets by exercise name
+                    val setsByExercise = mutableMapOf<String, MutableList<JSONObject>>()
                     for (i in 0 until setsArr.length()) {
                         val setObj = setsArr.getJSONObject(i)
-                        setList.add(
-                            SessionSetRow(
-                                setNumber = setObj.optInt("setNumber", 0),
-                                exerciseName = setObj.optJSONObject("exercise")?.optString("name") ?: "-",
-                                weight = setObj.optInt("weight", 0),
-                                reps = setObj.optInt("reps", 0)
-                            )
-                        )
+                        val exName = setObj.optJSONObject("exercise")?.optString("name") ?: "-"
+                        setsByExercise.getOrPut(exName) { mutableListOf() }.add(setObj)
                     }
                     runOnUiThread {
                         sessionName.text = workoutName
-                        sets.clear()
-                        sets.addAll(setList)
-                        adapter.notifyDataSetChanged()
-                    }
-                }
-            }
-        })
-    }
-
-    private fun deleteWorkoutTemplate(templateId: Int) {
-        val url = "http://10.0.2.2:8080/workoutTemplate/$templateId"
-        val client = OkHttpClient()
-        val request = Request.Builder()
-            .url(url)
-            .delete()
-            .build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                runOnUiThread {
-                    Toast.makeText(this@SessionDetailActivity, "Failed to delete template", Toast.LENGTH_SHORT).show()
-                }
-            }
-            override fun onResponse(call: Call, response: Response) {
-                runOnUiThread {
-                    if (response.isSuccessful) {
-                        Toast.makeText(this@SessionDetailActivity, "Template deleted", Toast.LENGTH_SHORT).show()
-                        finish() // or navigate to dashboard
-                    } else {
-                        Toast.makeText(this@SessionDetailActivity, "Failed to delete template", Toast.LENGTH_SHORT).show()
+                        exercisesContainer.removeAllViews()
+                        val inflater = LayoutInflater.from(this@SessionDetailActivity)
+                        for ((exerciseName, setList) in setsByExercise) {
+                            // Inflate a static card for each exercise
+                            val cardView = inflater.inflate(R.layout.item_session_exercise_detail, exercisesContainer, false)
+                            // Set exercise name
+                            val exNameView = cardView.findViewById<TextView>(R.id.sessionExerciseName)
+                            exNameView.text = exerciseName
+                            // Set exercise image
+                            val imageView = cardView.findViewById<ImageView>(R.id.sessionExerciseImage)
+                            when (exerciseName.lowercase()) {
+                                "chest press", "incline bench press", "bench press" -> imageView.setImageResource(R.drawable.icon_chest)
+                                "squat", "leg press", "hack squat" -> imageView.setImageResource(R.drawable.icon_legs)
+                                "shoulder press", "overhead press" -> imageView.setImageResource(R.drawable.icon_chest)
+                                "deadlift", "row", "lat pulldown" -> imageView.setImageResource(R.drawable.icon_back)
+                                else -> imageView.setImageResource(R.drawable.dumbbell)
+                            }
+                            // Fill sets table
+                            val setsContainer = cardView.findViewById<LinearLayout>(R.id.sessionExerciseSetsContainer)
+                            for ((index, setObj) in setList.withIndex()) {
+                                val setRow = inflater.inflate(R.layout.item_active_set, setsContainer, false)
+                                // Set number (row index + 1)
+                                setRow.findViewById<TextView>(R.id.setNumber).text = (index + 1).toString()
+                                // Set weight
+                                val weightView = setRow.findViewById<EditText>(R.id.weightInput)
+                                weightView.setText(setObj.optInt("weight", 0).toString())
+                                weightView.isEnabled = false
+                                weightView.setTextColor(android.graphics.Color.BLACK)
+                                // Set reps
+                                val repsView = setRow.findViewById<EditText>(R.id.repsInput)
+                                repsView.setText(setObj.optInt("reps", 0).toString())
+                                repsView.isEnabled = false
+                                repsView.setTextColor(android.graphics.Color.BLACK)
+                                // Hide previousValue and confirmSetBtn
+                                setRow.findViewById<TextView>(R.id.previousValue).visibility = android.view.View.GONE
+                                setRow.findViewById<android.widget.ImageButton>(R.id.confirmSetBtn).visibility = android.view.View.GONE
+                                setsContainer.addView(setRow)
+                            }
+                            exercisesContainer.addView(cardView)
+                        }
                     }
                 }
             }

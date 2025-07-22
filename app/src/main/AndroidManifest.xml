@@ -69,6 +69,14 @@
             android:name=".ActiveWorkoutActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ProgressChartActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".SessionDetailActivity"
+            android:exported="false" />
+
         <activity android:name=".StatsActivity" />
         <activity android:name=".ExerciseGuideActivity" />
         <activity android:name=".ExerciseCategoriesActivity" />

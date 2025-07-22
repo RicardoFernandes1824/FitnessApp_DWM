@@ -70,7 +70,7 @@ class CreateWorkout : AppCompatActivity() {
             }
             val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
             val userId = sharedPreferences.getString("userId", null)?.toIntOrNull() ?: -1
-            val video = "" // or get from input if you have it
+            val video = ""
 
             val workoutRoutineExercise = workoutExercises.map { ex ->
                 mapOf("id" to ex.exercise.id)

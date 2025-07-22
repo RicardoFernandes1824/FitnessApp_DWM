@@ -33,8 +33,6 @@ class ExerciseSetAdapter(
         fun bind(set: ExerciseSet, position: Int) {
             setNumber.text = "${position + 1}"
             repsInput.setText(set.reps)
-            val bgRes = if (position % 2 == 0) R.drawable.light_grey_bg_no_radius else R.drawable.dark_grey_bg_no_radius
-            itemView.setBackgroundResource(bgRes)
             repsInput.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) { set.reps = s.toString() }
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

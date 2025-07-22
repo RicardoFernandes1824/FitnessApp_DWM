@@ -17,6 +17,8 @@ import com.example.fitnessapp.workout_routine.workoutRoutineList
 import com.example.fitnessapp.exercise.exerciseList
 import com.example.fitnessapp.exercise.Exercise
 import android.widget.ImageButton
+import android.content.Intent
+import com.example.fitnessapp.ProgressChartActivity
 
 class StatsActivity : AppCompatActivity() {
     private lateinit var statsTitle: TextView
@@ -45,14 +47,26 @@ class StatsActivity : AppCompatActivity() {
             statsTitle.text = "Sessions Stats"
             lifecycleScope.launch {
                 allRoutines = workoutRoutineList(this@StatsActivity)
-                routinesAdapter = WorkoutRoutineStatsAdapter(allRoutines) {}
+                routinesAdapter = WorkoutRoutineStatsAdapter(allRoutines) { routine ->
+                    val intent = Intent(this@StatsActivity, ProgressChartActivity::class.java)
+                    intent.putExtra("TYPE", "routine")
+                    intent.putExtra("NAME", routine.name)
+                    intent.putExtra("ID", routine.id)
+                    startActivity(intent)
+                }
                 recyclerView.adapter = routinesAdapter
             }
         } else {
             statsTitle.text = "Exercise Stats"
             lifecycleScope.launch {
                 allExercises = exerciseList(this@StatsActivity)
-                exercisesAdapter = ExerciseStatsAdapter(allExercises) {}
+                exercisesAdapter = ExerciseStatsAdapter(allExercises) { exercise ->
+                    val intent = Intent(this@StatsActivity, ProgressChartActivity::class.java)
+                    intent.putExtra("TYPE", "exercise")
+                    intent.putExtra("NAME", exercise.name)
+                    intent.putExtra("ID", exercise.id)
+                    startActivity(intent)
+                }
                 recyclerView.adapter = exercisesAdapter
             }
         }

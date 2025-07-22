@@ -58,9 +58,9 @@ class WorkoutExerciseTableAdapter(
             // Remove exercise via dropdown
             removeExerciseBtn.setOnClickListener {
                 val popup = PopupMenu(itemView.context, removeExerciseBtn)
-                popup.menu.add("Delete Exercise")
+                popup.menu.add("Remove Exercise")
                 popup.setOnMenuItemClickListener { menuItem ->
-                    if (menuItem.title == "Delete Exercise") {
+                    if (menuItem.title == "Remove Exercise") {
                         onRemoveExercise(workoutExercise)
                         true
                     } else {

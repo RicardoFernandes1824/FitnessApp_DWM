@@ -2,7 +2,6 @@ package com.example.fitnessapp
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -48,7 +47,7 @@ class CreateProfile : AppCompatActivity() {
         val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genderOptions) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
-                view.setBackgroundResource(R.drawable.light_grey_bg)
+                view.setBackgroundResource(R.drawable.light_grey_bg_radius100)
                 return view
             }
 

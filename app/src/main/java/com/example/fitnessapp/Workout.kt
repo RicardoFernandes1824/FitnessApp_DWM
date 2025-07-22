@@ -41,9 +41,6 @@ class Workout : Fragment() {
 
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        // Removed: createWorkoutBtn = view.findViewById(R.id.createWorkoutBtn)
-
-        // Removed: createWorkoutBtn.setOnClickListener{ ... }
 
         lifecycleScope.launch {
             val workoutRoutines = withContext(Dispatchers.IO) {
