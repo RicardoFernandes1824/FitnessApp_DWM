@@ -153,6 +153,19 @@ class ActiveWorkoutActivity : AppCompatActivity() {
     }
 
     private fun saveFullSessionAndShowSummary() {
+        // Check if all sets are marked as done
+        val allSetsDone = exercises.all { ex -> ex.sets.all { it.done } }
+        if (!allSetsDone) {
+            val inflater = layoutInflater
+            val layout = inflater.inflate(R.layout.toast_warning, null)
+            val text: android.widget.TextView = layout.findViewById(R.id.toastText)
+            text.text = "You must complete all sets (or remove the ones you didn't do) before finishing the workout."
+            val toast = android.widget.Toast(this)
+            toast.duration = android.widget.Toast.LENGTH_LONG
+            toast.view = layout
+            toast.show()
+            return
+        }
         // Collect all set results
         val setsArray = JSONArray()
         for (ex in exercises) {

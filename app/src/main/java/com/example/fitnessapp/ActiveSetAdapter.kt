@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import android.graphics.Color
+import android.widget.Toast
 
 class ActiveSetAdapter(private val sets: MutableList<ActiveSet>) :
     RecyclerView.Adapter<ActiveSetAdapter.SetViewHolder>() {
@@ -34,18 +35,30 @@ class ActiveSetAdapter(private val sets: MutableList<ActiveSet>) :
         holder.weightInput.hint = if (set.templateWeight != null && set.templateWeight > 0) set.templateWeight.toString() else "-"
         holder.repsInput.setText(if (set.reps > 0) set.reps.toString() else "")
         holder.repsInput.hint = set.templateReps?.toString() ?: "-"
-        holder.confirmSetBtn.alpha = if (set.done) 1.0f else 0.5f
-        // Set initial color based on state
         if (set.done) {
-            holder.confirmSetBtn.setColorFilter(android.graphics.Color.parseColor("#388E3C"))
+            holder.confirmSetBtn.setImageResource(R.drawable.checkmark)
         } else {
+            holder.confirmSetBtn.setImageResource(R.drawable.undone)
             holder.confirmSetBtn.clearColorFilter()
         }
         holder.confirmSetBtn.setOnClickListener {
+            // Only allow marking as done if both weight and reps are > 0
+            if (!set.done && (set.weight <= 0 || set.reps <= 0)) {
+                val inflater = LayoutInflater.from(holder.itemView.context)
+                val layout = inflater.inflate(R.layout.toast_warning, null)
+                val text: TextView = layout.findViewById(R.id.toastText)
+                text.text = "Please enter both weight and reps before marking as done."
+                val toast = android.widget.Toast(holder.itemView.context)
+                toast.duration = android.widget.Toast.LENGTH_SHORT
+                toast.view = layout
+                toast.show()
+                return@setOnClickListener
+            }
             set.done = !set.done
             if (set.done) {
-                holder.confirmSetBtn.setColorFilter(android.graphics.Color.parseColor("#388E3C"))
+                holder.confirmSetBtn.setImageResource(R.drawable.checkmark)
             } else {
+                holder.confirmSetBtn.setImageResource(R.drawable.undone)
                 holder.confirmSetBtn.clearColorFilter()
             }
         }

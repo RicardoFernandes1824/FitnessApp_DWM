@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textColor="@color/black"
         android:gravity="center" />
 
     <TextView
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:text="-"
+        android:textColor="@color/black"
         android:gravity="center" />
 
     <EditText
@@ -42,9 +44,11 @@
     <ImageButton
         android:id="@+id/confirmSetBtn"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="30dp"
         android:layout_weight="1"
+        android:paddingStart="10dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/android_done_2_32"
+        android:src="@drawable/undone"
+        android:scaleType="fitCenter"
         android:contentDescription="Confirm Set" />
 </LinearLayout> 
