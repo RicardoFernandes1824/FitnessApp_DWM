@@ -38,9 +38,14 @@ class WorkoutRoutineStatsAdapter(
         private val routineImage: ImageView = view.findViewById(R.id.workoutIMG)
         fun bind(routine: WorkoutRoutine) {
             routineName.text = routine.name
-            // Optionally load image if available, else use default
-            // Example:
-            // if (routine.imageUrl != null) { Glide.with(itemView).load(routine.imageUrl).into(routineImage) } else { routineImage.setImageResource(R.drawable.chest_icon) }
+            // Set icon based on routine name
+            val iconRes = when (routine.name) {
+                "Chest Workout" -> R.drawable.icon_chest
+                "Legs Workout" -> R.drawable.icon_legs
+                "Back Workout" -> R.drawable.icon_back
+                else -> R.drawable.icon_chest
+            }
+            routineImage.setImageResource(iconRes)
         }
     }
 } 

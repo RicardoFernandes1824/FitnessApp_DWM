@@ -8,6 +8,8 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 
 class ExerciseAdapter(
     private val onSelectionChanged: (selectedCount: Int) -> Unit
@@ -53,6 +55,17 @@ class ExerciseAdapter(
         fun bind(exercise: Exercise, position: Int, isSelected: Boolean) {
             nameTextView.text = exercise.name
             cardLayout.isSelected = isSelected
+            // Fetch and display the image
+            val imageView = itemView.findViewById<ImageView>(R.id.exerciseIMG)
+            val imageURL = exercise.imageURL
+            if (!imageURL.isNullOrEmpty()) {
+                Glide.with(imageView.context)
+                    .load("http://10.0.2.2:8080$imageURL")
+                    .placeholder(R.drawable.icon_chest)
+                    .into(imageView)
+            } else {
+                imageView.setImageResource(R.drawable.icon_chest)
+            }
             itemView.setOnClickListener {
                 if (selectedPositions.contains(position)) {
                     selectedPositions.remove(position)

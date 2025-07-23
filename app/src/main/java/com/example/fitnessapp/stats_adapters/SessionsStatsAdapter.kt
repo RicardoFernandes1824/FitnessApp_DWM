@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.SessionCard
+import android.widget.ImageView
 
 class SessionsStatsAdapter(
     private var sessions: List<SessionCard>,
@@ -28,6 +29,13 @@ class SessionsStatsAdapter(
         val session = sessions[position]
         holder.workoutName.text = session.workoutName
         holder.time.text = session.endTime // Format as needed
+        // Set workout icon based on workout name
+        val iconRes = when (session.workoutName) {
+            "Chest Workout" -> R.drawable.icon_chest
+            "Legs Workout" -> R.drawable.icon_legs
+            "Back Workout" -> R.drawable.icon_back
+            else -> R.drawable.icon_chest
+        }
         holder.itemView.setOnClickListener { onSessionClick(session) }
     }
 

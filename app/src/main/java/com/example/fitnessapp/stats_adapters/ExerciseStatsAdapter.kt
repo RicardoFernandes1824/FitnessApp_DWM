@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.exercise.Exercise
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 
 class ExerciseStatsAdapter(
     private var exercises: List<Exercise>,
@@ -38,10 +39,15 @@ class ExerciseStatsAdapter(
         private val exerciseImage: ImageView = view.findViewById(R.id.exerciseIMG)
         fun bind(exercise: Exercise) {
             exerciseName.text = exercise.name
-            // Optionally load image if imageUrl is set, else use default
-            // You can use Glide/Picasso if available, else just set default for now
-            // Example:
-            // if (exercise.imageUrl != null) { Glide.with(itemView).load(exercise.imageUrl).into(exerciseImage) } else { exerciseImage.setImageResource(R.drawable.chest_icon) }
+            val imageURL = exercise.imageURL
+            if (!imageURL.isNullOrEmpty()) {
+                Glide.with(exerciseImage.context)
+                    .load("http://10.0.2.2:8080$imageURL")
+                    .placeholder(R.drawable.icon_chest)
+                    .into(exerciseImage)
+            } else {
+                exerciseImage.setImageResource(R.drawable.icon_chest)
+            }
         }
     }
 } 

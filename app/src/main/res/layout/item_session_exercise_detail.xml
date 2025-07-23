@@ -25,6 +25,8 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/icon_chest"
+                android:background="@drawable/rounded_corners_8dp"
+                android:clipToOutline="true"
                 android:contentDescription="Exercise Image" />
 
             <TextView
