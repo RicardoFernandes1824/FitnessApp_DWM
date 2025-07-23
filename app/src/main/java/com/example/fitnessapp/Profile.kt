@@ -49,6 +49,41 @@
             val userIdString = sharedPreferences.getString("userId", null)
             val userId = userIdString?.toIntOrNull() ?: -1
 
+            // Fetch and set profile image (reused from Settings)
+            val profileImageView = view.findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.profileImageView)
+            val token = sharedPreferences.getString("token", "") ?: ""
+            if (!userIdString.isNullOrEmpty() && token.isNotEmpty()) {
+                val client = okhttp3.OkHttpClient()
+                val url = "http://10.0.2.2:8080/users/$userIdString"
+                val request = okhttp3.Request.Builder()
+                    .url(url)
+                    .get()
+                    .addHeader("Authorization", "Bearer $token")
+                    .build()
+                client.newCall(request).enqueue(object : okhttp3.Callback {
+                    override fun onFailure(call: okhttp3.Call, e: java.io.IOException) {
+                        // Optionally handle error
+                    }
+                    override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                        response.use {
+                            if (!response.isSuccessful) return
+                            val responseBody = response.body?.string()
+                            if (responseBody != null) {
+                                val jsonObject = org.json.JSONObject(responseBody)
+                                val photo = jsonObject.optString("photo", null)
+                                if (!photo.isNullOrEmpty()) {
+                                    requireActivity().runOnUiThread {
+                                        com.bumptech.glide.Glide.with(this@Profile)
+                                            .load("http://10.0.2.2:8080$photo")
+                                            .into(profileImageView)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+
             // Update the TextView with the username
             val helloText: TextView = view.findViewById(R.id.helloTxt)
             helloText.text = "Welcome, $user"

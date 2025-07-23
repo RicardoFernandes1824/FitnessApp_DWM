@@ -8,6 +8,7 @@
     tools:context=".Profile">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImageView"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginStart="20dp"
