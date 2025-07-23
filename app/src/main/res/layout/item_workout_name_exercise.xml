@@ -43,6 +43,7 @@
             android:id="@+id/setsCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
             android:text="Sets: 3"
             android:textColor="@android:color/black"
             android:textSize="16sp"
