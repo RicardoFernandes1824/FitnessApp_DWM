@@ -40,13 +40,14 @@
 
         <ImageView
             android:id="@+id/iconPerfil"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_marginStart="15dp"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@+id/username_input"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/username_input"
-            app:srcCompat="@drawable/baseline_person_outline_24" />
+            app:srcCompat="@drawable/user" />
 
         <EditText
             android:id="@+id/password_input"
