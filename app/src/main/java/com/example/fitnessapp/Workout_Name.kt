@@ -31,7 +31,8 @@ class Workout_Name : AppCompatActivity() {
     data class WorkoutExerciseDisplay(
         val id: Int,
         val name: String,
-        val sets: Int
+        val sets: Int,
+        val imageURL: String? = null
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,13 +132,15 @@ class Workout_Name : AppCompatActivity() {
                                 val exercise = exerciseObj.optJSONObject("exercise")
                                 val exerciseId = exercise?.optInt("id", -1) ?: -1
                                 val exerciseName = exercise?.optString("name", "Unknown Exercise") ?: "Unknown Exercise"
+                                val imageURL = exercise?.optString("imageURL", null)
                                 Log.d("WorkoutRoutine", "Parsed exerciseId: $exerciseId for $exerciseName")
                                 val sets = exerciseObj.optInt("sets", 0)
                                 exerciseDisplays.add(
                                     WorkoutExerciseDisplay(
                                         id = exerciseId,
                                         name = exerciseName,
-                                        sets = sets
+                                        sets = sets,
+                                        imageURL = imageURL
                                     )
                                 )
                             }
@@ -202,6 +205,7 @@ class WorkoutExerciseDisplayAdapter(private val items: List<Workout_Name.Workout
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val exerciseName: android.widget.TextView = view.findViewById(R.id.exerciseName)
         val setsCount: android.widget.TextView = view.findViewById(R.id.setsCount)
+        val exerciseImage: android.widget.ImageView = view.findViewById(R.id.exerciseImage)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -212,6 +216,15 @@ class WorkoutExerciseDisplayAdapter(private val items: List<Workout_Name.Workout
         val item = items[position]
         holder.exerciseName.text = item.name
         holder.setsCount.text = "Sets: ${item.sets}"
+        // Load image if available
+        if (!item.imageURL.isNullOrEmpty()) {
+            com.bumptech.glide.Glide.with(holder.exerciseImage.context)
+                .load("http://10.0.2.2:8080" + item.imageURL)
+                .placeholder(R.drawable.icon_chest)
+                .into(holder.exerciseImage)
+        } else {
+            holder.exerciseImage.setImageDrawable(null)
+        }
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, ExerciseGuideActivity::class.java)

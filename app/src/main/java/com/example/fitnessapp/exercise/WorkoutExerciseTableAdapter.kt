@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import android.widget.Button
 import android.widget.PopupMenu
+import com.bumptech.glide.Glide
 
 class WorkoutExerciseTableAdapter(
     private val exercises: MutableList<WorkoutExercise>,
@@ -39,9 +40,12 @@ class WorkoutExerciseTableAdapter(
 
         fun bind(workoutExercise: WorkoutExercise) {
             // Set image if available, else default
-            if (workoutExercise.exercise.imageUrl != null) {
-                // TODO: Load image from URL if needed
-                exerciseImage.setImageResource(R.drawable.icon_chest)
+            val imageURL = workoutExercise.exercise.imageURL
+            if (!imageURL.isNullOrEmpty()) {
+                Glide.with(exerciseImage.context)
+                    .load("http://10.0.2.2:8080$imageURL")
+                    .placeholder(R.drawable.icon_chest)
+                    .into(exerciseImage)
             } else {
                 exerciseImage.setImageResource(R.drawable.icon_chest)
             }

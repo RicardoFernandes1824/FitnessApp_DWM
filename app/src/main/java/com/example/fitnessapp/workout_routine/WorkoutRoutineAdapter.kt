@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import android.widget.Button
+import com.bumptech.glide.Glide
 
 class WorkoutRoutineAdapter(
     private val showHeader: Boolean,
@@ -76,7 +77,13 @@ class WorkoutRoutineAdapter(
         fun bind(workout: WorkoutRoutine) {
             currentWorkoutRoutine = workout
             workoutRoutineTextView.text = workout.name
-            val imageResId = workout.image ?: R.drawable.keanu_reeves
+            // Set icon based on workout name
+            val imageResId = when (workout.name) {
+                "Chest Workout" -> R.drawable.icon_chest
+                "Legs Workout" -> R.drawable.icon_legs
+                "Back Workout" -> R.drawable.icon_back
+                else -> R.drawable.fitness_man
+            }
             workoutRoutineImageView.setImageResource(imageResId)
         }
     }

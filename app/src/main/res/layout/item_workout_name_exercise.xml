@@ -19,6 +19,8 @@
             android:contentDescription="Exercise Image"
             android:scaleType="centerCrop"
             android:src="@drawable/icon_chest"
+            android:background="@drawable/rounded_corners_8dp"
+            android:clipToOutline="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.exercise.Exercise
+import com.bumptech.glide.Glide
 
 sealed class ExerciseCategoryItem {
     data class CategoryHeader(val category: String) : ExerciseCategoryItem()
@@ -64,6 +65,7 @@ class ExerciseCategoryAdapter(
 
     class ExerciseViewHolder(itemView: View, val onExerciseClick: (Exercise) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val nameText: TextView = itemView.findViewById(R.id.exerciseNameText)
+        private val circleImageView: de.hdodenhof.circleimageview.CircleImageView = itemView.findViewById(R.id.circleImageView)
         private var currentExercise: Exercise? = null
         init {
             itemView.setOnClickListener {
@@ -73,6 +75,16 @@ class ExerciseCategoryAdapter(
         fun bind(exercise: Exercise) {
             currentExercise = exercise
             nameText.text = exercise.name
+            // Load image using Glide
+            val imageURL = exercise.imageURL
+            if (!imageURL.isNullOrEmpty()) {
+                Glide.with(itemView.context)
+                    .load("http://10.0.2.2:8080$imageURL")
+                    .placeholder(R.drawable.keanu_reeves)
+                    .into(circleImageView)
+            } else {
+                circleImageView.setImageResource(R.drawable.keanu_reeves)
+            }
         }
     }
 } 
