@@ -10,6 +10,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import de.hdodenhof.circleimageview.CircleImageView
+import com.bumptech.glide.Glide
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
+import java.io.IOException
 
 class Settings : Fragment() {
 
@@ -30,6 +36,41 @@ class Settings : Fragment() {
 
         val helloText: TextView = view.findViewById(R.id.userName)
         helloText.text = username
+
+        val profileImageView = view.findViewById<CircleImageView>(R.id.profileImageView)
+        val userId = sharedPreferences.getString("userId", "") ?: ""
+        val token = sharedPreferences.getString("token", "") ?: ""
+        if (userId.isNotEmpty() && token.isNotEmpty()) {
+            val client = OkHttpClient()
+            val url = "http://10.0.2.2:8080/users/$userId"
+            val request = Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+            client.newCall(request).enqueue(object : okhttp3.Callback {
+                override fun onFailure(call: okhttp3.Call, e: IOException) {
+                    // Optionally handle error
+                }
+                override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                    response.use {
+                        if (!response.isSuccessful) return
+                        val responseBody = response.body?.string()
+                        if (responseBody != null) {
+                            val jsonObject = JSONObject(responseBody)
+                            val photo = jsonObject.optString("photo", null)
+                            if (!photo.isNullOrEmpty()) {
+                                requireActivity().runOnUiThread {
+                                    Glide.with(this@Settings)
+                                        .load("http://10.0.2.2:8080$photo")
+                                        .into(profileImageView)
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+        }
 
         editProfileBtn = view.findViewById(R.id.editProfile_btn)
         accountSettingsBtn = view.findViewById(R.id.account_btn)
